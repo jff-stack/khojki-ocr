@@ -16,6 +16,7 @@ TODO = "[TODO]"
 VLM_NOT_RUN = ("Not run (no API key). GlotOCR Bench (arXiv 2604.12978) reports all 14 tested "
                "systems score 0 on Khojki; not verified here.")
 EST_LINES = 1000
+SAMPLE_PAGES = 45  # size of the sample collection stated in the brief
 
 
 def load_json(path: Path) -> dict:
@@ -136,6 +137,8 @@ def build(s: dict) -> tuple[dict[str, str], dict[str, str]]:
                            if first else TODO)
     p18 = pages.get("page_18")
     v["sec_per_page"] = f"{p18['seconds']:.1f}" if p18 else TODO
+    v["min_sample_pages"] = f"{SAMPLE_PAGES * p18['seconds'] / 60:.0f}" if p18 else TODO
+    v["hours_1000_pages"] = f"{1000 * p18['seconds'] / 3600:.1f}" if p18 else TODO
     v["device"] = timing.get("device", TODO)
     for k in ("damaged", "clean"):
         info = synth.get(k)

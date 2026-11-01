@@ -51,7 +51,7 @@ make all
 make run PAGES="01 09 18"
 ```
 
-The trained model `models/khojki_best.mlmodel` is in the repo, so steps 3 and 4 are optional. Without them, `make pages all` reproduces every number below.
+The trained model `models/khojki_best.mlmodel` is in the repo, so steps 3 and 4 are optional. Without them, `make pages all` reproduces the evaluation and pipeline numbers below; the training numbers come from the committed logs in `results/`.
 
 On WSL2, keep the virtualenv and `data/synth/` on the Linux filesystem (symlinks are fine). Under `/mnt/c`, the torch install and imports were very slow.
 
