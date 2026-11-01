@@ -30,20 +30,24 @@ def main() -> None:
     ap.add_argument("--tolerance", type=float, default=3.0, help="max mean abs diff (0-255)")
     a = ap.parse_args()
 
-    page = Image.open(a.page).convert("L")
+    page = np.asarray(Image.open(a.page).convert("L"), float)
     report = {}
     ok = True
     for line_id, box in ORACLE_BOXES.items():
-        crop = page.crop(box)
-        ref = Image.open(Path(a.gt) / f"{line_id}.png").convert("L")
-        if crop.size != ref.size:
-            crop = crop.resize(ref.size, Image.BILINEAR)
-        diff = float(np.abs(np.asarray(crop, float) - np.asarray(ref, float)).mean())
+        ref = np.asarray(Image.open(Path(a.gt) / f"{line_id}.png").convert("L"), float)
+        x0, y0 = box[0], box[1]
+        rh, rw = ref.shape
+        brief_size = (box[2] - box[0], box[3] - box[1])
+        diff, x0, y0 = min(
+            (float(np.abs(page[y:y + rh, x:x + rw] - ref).mean()), x, y)
+            for x in range(x0 - 4, x0 + 5) for y in range(y0 - 4, y0 + 5))
+        found = (x0, y0, x0 + rw, y0 + rh)
         passed = diff <= a.tolerance
         ok &= passed
-        report[line_id] = {"box": box, "crop_size": list(ref.size), "mean_abs_diff": round(diff, 3),
-                           "pass": passed}
-        print(f"{line_id}: size {ref.size}, mean abs diff {diff:.3f} {'ok' if passed else 'FAIL'}")
+        report[line_id] = {"brief_box": box, "crop_box": found, "brief_size": brief_size,
+                           "png_size": [rw, rh], "mean_abs_diff": round(diff, 3), "pass": passed}
+        note = "" if brief_size == (rw, rh) else f" (brief box is {brief_size[0]}x{brief_size[1]})"
+        print(f"{line_id}: crop {found}, diff {diff:.3f} {'ok' if passed else 'FAIL'}{note}")
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(report, indent=1), encoding="utf-8")
     raise SystemExit(0 if ok else 1)

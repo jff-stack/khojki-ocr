@@ -3,6 +3,7 @@ inputs/
 *.pdf
 data/pages/
 data/synth/
+results/lines/
 
 # Secrets and environments
 .env
