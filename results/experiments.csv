@@ -2,3 +2,8 @@ date,name,settings,metric,value,minutes
 2026-10-31,corpus,guj=300 per_cell=20 punct=600 seed=7,codepoint_coverage_pct,100.0,0.02
 2026-10-31,render_damaged,n=10000 font=28-48px height=120 seed=11,images,10000,0.51
 2026-10-31,render_clean,n=4000 font=28-48px height=120 seed=11,images,4000,0.17
+2026-10-31,vlm_baseline,no API key,status,skipped,0
+2026-11-01,train_damaged,"from scratch, 10000 damaged lines, batch 16, early stop lag 5, cap 35 min",val_cer,0.0031,31
+2026-11-01,train_clean_10min,"from scratch, 4000 clean lines, batch 16, cap 10 min",val_accuracy_after_2_epochs,0.0,10
+2026-11-01,gate_khojki_best_on_damaged,"last 20 lines, ketos test",char_accuracy_pct,99.82,0
+2026-11-01,gate_khojki_best_on_clean,"last 20 lines, ketos test",char_accuracy_pct,-28.54,0

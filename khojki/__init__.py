@@ -12,7 +12,7 @@ def log_experiment(name: str, settings: str, metric: str, value, minutes: float)
     EXPERIMENTS.parent.mkdir(parents=True, exist_ok=True)
     new = not EXPERIMENTS.exists()
     with EXPERIMENTS.open("a", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         if new:
             w.writerow(FIELDS)
         w.writerow([dt.date.today().isoformat(), name, settings, metric, value, round(minutes, 2)])

@@ -25,10 +25,16 @@ synth:
 	$(PY) -m khojki.render --n $(CLEAN_N) --out data/synth/clean --clean
 
 train:
-	$(PY) -m khojki.train --data data/synth/damaged --out models/khojki_best --minutes 35 --device $(DEVICE)
+	KETOS=$(KETOS) tools/train.sh data/synth/damaged damaged 35 $(DEVICE)
+	$(PY) tools/train_summary.py
+	$(KETOS) convert -o models/khojki_best.mlmodel --weights-format coreml \
+		$$($(PY) -c "import json;print(json.load(open('results/train_summary.json'))['damaged']['best_checkpoint'])")
 
 train-clean:
-	$(PY) -m khojki.train --data data/synth/clean --out models/khojki_clean --minutes 10 --device $(DEVICE)
+	KETOS=$(KETOS) tools/train.sh data/synth/clean clean 10 $(DEVICE)
+	$(PY) tools/train_summary.py
+	$(KETOS) convert -o models/khojki_clean.mlmodel --weights-format coreml \
+		$$($(PY) -c "import json;print(json.load(open('results/train_summary.json'))['clean']['best_checkpoint'])")
 
 run:
 	$(PY) pipeline.py $(foreach p,$(PAGES),data/pages/page_$(p).png) --model $(MODEL) --out results/out/

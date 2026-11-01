@@ -2,12 +2,12 @@
 inputs/
 *.pdf
 data/pages/
-data/synth/
+data/synth
 results/lines/
 
 # Secrets and environments
 .env
-.venv/
+.venv
 __pycache__/
 *.pyc
 .pytest_cache/
