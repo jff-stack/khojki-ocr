@@ -159,6 +159,8 @@ def build(s: dict) -> tuple[dict[str, str], dict[str, str]]:
     for k in ("line_detection", "recognition", "mapping"):
         r = stage_map.get(k)
         v[f"stage_{k}"] = f"{r['edits']} ({float(r['share']):.0%})" if r else TODO
+    ld_edits = int(stage_map["line_detection"]["edits"]) if "line_detection" in stage_map else None
+    v["auto_crop_gain"] = str(-ld_edits) if ld_edits is not None and ld_edits < 0 else TODO
     return t, v
 
 

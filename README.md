@@ -95,7 +95,7 @@ Where the errors come from (damaged model):
 | recognition | 26 | 100% |
 <!-- /TABLE:stages -->
 
-"Line detection" is the gap between runs A and B. A negative value means the automatic crops scored better than the hand crops. "Mapping" is the gap between runs C and B, plus edits where the two code points draw the same glyph in the font. "Recognition" is everything else in run B.
+"Line detection" is the gap between runs A and B. Here it is negative: line detection caused 0 errors; the automatic crops gave <!-- VAL:auto_crop_gain -->4<!-- /VAL:auto_crop_gain --> fewer errors than the hand crops. "Mapping" is the gap between runs C and B, plus edits where the two code points draw the same glyph in the font. "Recognition" is everything else in run B.
 
 Most frequent confusions in run B:
 
@@ -135,7 +135,7 @@ Pages run through the full pipeline (<!-- VAL:device -->cpu<!-- /VAL:device -->)
 | page_18.png | 16 | 8.0 | 6 | vowel signs on one letter (4), orphan mark (3) |
 <!-- /TABLE:pages -->
 
-Pages 1 and 9 have no ground truth. Their only check is the validator.
+Pages 1 (handwritten manuscript, about 1890) and 9 (1896 Narsi Mehta lithograph) ran end to end, no CER (no ground truth). Their only check is the validator. The overlays show two segmentation problems: on page 1, which has no printed frame, the boxes clip the start and end of most lines; on page 9, the ornament (line 3) is detected as a text line.
 
 VLM baseline: <!-- VAL:vlm_cer -->Not run (no API key). GlotOCR Bench (arXiv 2604.12978) reports all 14 tested systems score 0 on Khojki; not verified here.<!-- /VAL:vlm_cer --> `tools/vlm_baseline.py` is ready to run once a key is set.
 
@@ -200,7 +200,7 @@ All code points were checked with `unicodedata.name()`, not from memory. Where a
 - Five test lines. The test set has <!-- VAL:n_cp -->119<!-- /VAL:n_cp --> code points, so each edit counts for a lot. All 5 lines come from one page of one book.
 - No real training data. The model has only seen Noto Sans Khojki, a modern design whose letter shapes differ from 1903 metal type. Most remaining errors are on those letters.
 - Damage only on textured paper. Every damaged training line has a paper texture. The damaged model fails on clean white renders (see the `gate_*` rows in the experiments table), so it has learned the background as well as the glyphs.
-- Segmentation is tuned to framed pages. It looks for a printed border and returns no lines on a blank page. It has not been tried on lithographs or handwriting.
+- Segmentation is tuned to framed pages. It looks for a printed border and returns no lines on a blank page. It ran end to end on a handwritten page and a lithograph (pages 1 and 9), but with no ground truth for them, accuracy there is unmeasured.
 - The render score is unproven. Five lines are too few to tell whether it predicts errors.
 - No VLM comparison, because no API key was available. A published benchmark result is quoted above but was not checked here.
 - Two glyphs in the ground truth are still uncertain (see `GROUND_TRUTH.md`).
