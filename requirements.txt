@@ -1,0 +1,12 @@
+kraken==7.1.1
+Pillow==12.3.0
+fonttools==4.68.0
+opencv-python-headless==5.0.0.93
+numpy==2.4.6
+scikit-image==0.25.2
+rapidfuzz==3.14.6
+regex==2026.9.29
+aksharamukha==2.3
+pytest==9.2.0
+python-dotenv==1.2.4
+pypdfium2==5.14.0

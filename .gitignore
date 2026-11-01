@@ -1,0 +1,28 @@
+# Source material (not ours to redistribute)
+inputs/
+*.pdf
+data/pages/
+data/synth/
+
+# Secrets and environments
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Training artifacts
+*.ckpt
+*.arrow
+models/*
+!models/.gitkeep
+!models/khojki_best.mlmodel
+!models/khojki_clean.mlmodel
+
+# Local working notes
+HANDOFF.md
+CLAUDE.md
+.claude/
+.omc/
+
+.DS_Store
