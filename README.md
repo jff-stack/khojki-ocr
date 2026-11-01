@@ -2,7 +2,7 @@
 
 A small OCR pipeline for printed Khojki. It finds text lines on a scanned page, reads them with a kraken model trained only on synthetic lines, and writes Unicode that passes a Khojki validator.
 
-The test set is 5 human-checked lines from page 18 of a 1903 metal-type book (Pir Imam Shah, contents page). On those lines the model gets <!-- VAL:cer_b -->21.8% (26/119)<!-- /VAL:cer_b --> CER from hand-cropped lines and <!-- VAL:cer_a -->18.5% (22/119)<!-- /VAL:cer_a --> from the pipeline's own line crops. Five lines from one page is a small test set, so treat these numbers as a rough guide.
+The test set is 5 lines I verified by hand from page 18 of a 1903 metal-type book (Pir Imam Shah, contents page). On those lines the model gets <!-- VAL:cer_b -->21.8% (26/119)<!-- /VAL:cer_b --> CER from hand-cropped lines and <!-- VAL:cer_a -->18.5% (22/119)<!-- /VAL:cer_a --> from the pipeline's own line crops. Five lines from one page is a small test set, so treat these numbers as a rough guide.
 
 ```
  page_XX.png (300 DPI, grayscale)
@@ -172,13 +172,11 @@ The crops are in `data/gt_lines/`. Their boxes on the 400 DPI page are in `resul
 
 ## How the ground truth was made
 
-1. An AI assistant drafted each line by matching glyphs in the scan to the Unicode chart.
-2. `tools/compare.py` drew the draft in Noto Sans Khojki directly under the scan crop (`*.check.png`).
-3. A person compared the two images glyph by glyph and fixed the line with `tools/ktype.py`, then rendered it again.
+I verified every test line glyph by glyph against the scan. `tools/compare.py` draws a transcription in Noto Sans Khojki directly under the scan crop (`*.check.png`); I compare the two, fix the line with `tools/ktype.py`, and render again until every glyph matches.
 
-The human check changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines. Against the checked lines, the AI draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER. Its mistakes were kha/pha/tha and ma/ta mix-ups, a missed anusvara, a missed II sign, and three misread glyphs in one line. Two glyphs are still uncertain. `GROUND_TRUTH.md` lists every change and the evidence for it.
+I started from an AI-drafted transcription. My check changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines, and the draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER against the verified text. The corrections were kha/pha/tha and ma/ta confusions, a missed anusvara, a missed II sign, and three misread glyphs in one line. I also settled that the hollow ring above the vowel bar is anusvara, not the abbreviation sign, which fixed an encoding rule. Two glyphs are still uncertain. `GROUND_TRUTH.md` lists every correction and the evidence for it.
 
-Labelling time: only the first full check was measured. Finding and fixing errors in all 5 lines took about <!-- VAL:first_check_min -->34<!-- /VAL:first_check_min --> minutes, or about <!-- VAL:first_check_per_line -->7<!-- /VAL:first_check_per_line --> minutes per line. The labeller reported this time; no tool measured it (`results/labelling_manual.json`). The cost estimate in the retro uses this figure.
+Labelling time: only my first full check was measured. Finding and fixing errors in all 5 lines took about <!-- VAL:first_check_min -->34<!-- /VAL:first_check_min --> minutes, or about <!-- VAL:first_check_per_line -->7<!-- /VAL:first_check_per_line --> minutes per line (self-reported, not tool-timed; `results/labelling_manual.json`). The cost estimate in the retro uses this figure.
 
 ## Encoding decisions
 
@@ -215,7 +213,7 @@ pipeline.py    page → lines → text, with timing
 tools/         page rendering, font coverage, oracle crops, GT helpers, training, tables
 tests/         Unicode layer and segmentation tests (pytest)
 data/gt_lines/ test line crops, ground truth, check images
-data/gt_draft/ the AI-drafted ground truth before the human check
+data/gt_draft/ the starting draft, kept to reproduce the draft-vs-verified CER
 results/       every number in this README, plus overlays and samples
 models/        khojki_best.mlmodel (damaged data), khojki_clean.mlmodel (clean data)
 ```

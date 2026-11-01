@@ -32,4 +32,4 @@ A page takes <!-- VAL:sec_per_page -->8.0<!-- /VAL:sec_per_page --> s on <!-- VA
 
 ## 8. AI tools
 
-An AI drafted the ground truth. A person checked it against rendered glyphs and changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines: the draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER. The mistakes were plausible letter swaps (kha/pha/tha, ma/ta) and missed marks, which would otherwise have been scored as model errors. `AI_ERRORS.md` lists all seven cases.
+I verified every test line glyph by glyph against rendered text. Starting from an AI draft, my check changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines: the draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER. Its errors were plausible letter swaps (kha/pha/tha, ma/ta) and missed marks, which would otherwise have been scored as model errors. Unverified AI labels are not ground truth. `AI_ERRORS.md` lists seven cases.
