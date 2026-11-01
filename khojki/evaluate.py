@@ -1,8 +1,7 @@
-"""Evaluate on the ground-truth lines: CER, stage attribution, confusions, cost."""
+"""Evaluate on the ground-truth lines: CER, stage attribution and confusions."""
 import argparse
 import csv
 import json
-import statistics
 import unicodedata as ud
 from collections import Counter
 from pathlib import Path
@@ -162,22 +161,6 @@ def total(rows: list[dict], model: str, run: str, key: str = "") -> tuple[int, i
     return sum(r[f"edits{sfx}"] for r in sel), sum(r[f"n{sfx}"] for r in sel)
 
 
-def labelling_cost() -> dict | None:
-    """Median seconds per line and code points per minute from timing.csv."""
-    path = GT_DIR / "timing.csv"
-    if not path.exists():
-        return None
-    rows = list(csv.DictReader(path.open(encoding="utf-8")))
-    if not rows:
-        return None
-    secs = [float(r["seconds"]) for r in rows]
-    cps = [int(r["n_codepoints"]) for r in rows]
-    return {"lines": len(rows), "median_seconds_per_line": round(statistics.median(secs), 1),
-            "total_seconds": round(sum(secs), 1),
-            "codepoints_per_minute": round(sum(cps) / (sum(secs) / 60), 1),
-            "lines_changed": sum(1 for r in rows if r["changed"] == "y")}
-
-
 def vlm_scores(gt: list[dict]) -> dict | None:
     """CER of raw VLM output, if the baseline was run."""
     raw_dir = RESULTS / "vlm_raw"
@@ -269,14 +252,13 @@ def main() -> None:
         "spearman_render_score_vs_cer": round(rho, 3) if rho is not None else None,
         "render_scores": {k: best[k]["render_score"] for k in best},
         "vlm": vlm_scores(gt),
-        "labelling": labelling_cost(),
         "timing": timing,
         "predictions": {k: {**best[k], "gt": line["text"]} for k, line in zip(best, gt)},
     }
     (RESULTS / "summary.json").write_text(json.dumps(summary, indent=1, ensure_ascii=False),
                                           encoding="utf-8")
     b = summary["runs"]["damaged"]["B"]
-    print(f"CER (oracle crops, damaged model): {b['edits']}/{b['n']} = {b['cer']:.1%}")
+    print(f"CER (oracle crops, damaged model): {b['edits']}/{b['n']} = {b['edits'] / b['n']:.1%}")
     print(f"stages: {stages}")
 
 

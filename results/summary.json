@@ -102,7 +102,6 @@
   "p18_l06": 0.6917
  },
  "vlm": null,
- "labelling": null,
  "timing": {
   "model": "models/khojki_best.mlmodel",
   "device": "cpu",

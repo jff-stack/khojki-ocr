@@ -13,6 +13,9 @@ from rapidfuzz.distance import Levenshtein
 
 R = Path("results")
 TODO = "[TODO]"
+VLM_NOT_RUN = ("Not run (no API key). GlotOCR Bench (arXiv 2604.12978) reports all 14 tested "
+               "systems score 0 on Khojki; not verified here.")
+EST_LINES = 1000
 
 
 def load_json(path: Path) -> dict:
@@ -50,20 +53,25 @@ def build(s: dict) -> tuple[dict[str, str], dict[str, str]]:
     runs = s.get("runs", {})
     names = {"A": "auto line crop + normalize", "B": "oracle crop + normalize",
              "C": "oracle crop, raw model output"}
+    synth = load_json(R / "train_summary.json")
+    labels = {"damaged": "damaged"}
+    if "clean" in synth and "damaged" in synth:
+        labels["clean"] = (f"clean (did not converge: {synth['clean']['epochs']} epochs vs "
+                           f"{synth['damaged']['epochs']})")
     t, v = {}, {}
 
     rows = []
     for model, by_run in runs.items():
         for run in "ABC":
             r = by_run[run]
-            rows.append([f"{model}", f"{run}: {names[run]}", pct(r["edits"], r["n"]),
+            rows.append([labels.get(model, model), f"{run}: {names[run]}", pct(r["edits"], r["n"]),
                          pct(r["edits_nosep"], r["n_nosep"]), pct(r["edits_graph"], r["n_graph"])])
     vlm = s.get("vlm")
     if vlm:
         rows.append([f"VLM {vlm['model']}", "oracle crop, raw output", pct(vlm["edits"], vlm["n"]),
                      "", ""])
     else:
-        rows.append(["VLM baseline", "not run (no API key)", TODO, "", ""])
+        rows.append(["VLM baseline", VLM_NOT_RUN, "", "", ""])
     t["cer"] = table(["Model", "Run", "CER (code points)", "CER without U+1123A",
                       "CER (graphemes)"], rows) if runs else TODO
 
@@ -107,7 +115,6 @@ def build(s: dict) -> tuple[dict[str, str], dict[str, str]]:
                         f"<sub>{cp_list(p['gt'])}</sub>"])
     t["testlines"] = table(["Line", "Scan", "Unicode", "Code points"], gt_rows) if gt_rows else TODO
 
-    lab = s.get("labelling")
     timing = s.get("timing") or {}
     pages = timing.get("pages", {})
     ld = s.get("line_detection", {})
@@ -122,13 +129,14 @@ def build(s: dict) -> tuple[dict[str, str], dict[str, str]]:
     v["manual_lines"] = str(ld.get("manual_lines") or TODO)
     v["matched"] = str(ld.get("gt_lines_matched", TODO))
     v["spearman"] = str(s.get("spearman_render_score_vs_cer", TODO))
-    v["sec_per_line"] = str(lab["median_seconds_per_line"]) if lab else TODO
-    v["cp_per_min"] = str(lab["codepoints_per_minute"]) if lab else TODO
-    v["lines_changed"] = f"{lab['lines_changed']} of {lab['lines']}" if lab else TODO
+    first = load_json(R / "labelling_manual.json").get("first_check")
+    v["first_check_min"] = str(first["total_minutes"]) if first else TODO
+    v["first_check_per_line"] = str(first["minutes_per_line"]) if first else TODO
+    v["est_hours_1000"] = (str(round(EST_LINES * first["minutes_per_line"] / 60))
+                           if first else TODO)
     p18 = pages.get("page_18")
     v["sec_per_page"] = f"{p18['seconds']:.1f}" if p18 else TODO
     v["device"] = timing.get("device", TODO)
-    synth = load_json(R / "train_summary.json")
     for k in ("damaged", "clean"):
         info = synth.get(k)
         v[f"val_cer_{k}"] = f"{info['val_cer']:.1%}" if info and info.get("val_cer") is not None else TODO
@@ -143,23 +151,11 @@ def build(s: dict) -> tuple[dict[str, str], dict[str, str]]:
     cs = load_json(R / "corpus_stats.json")
     v["corpus_lines"] = str(cs.get("total", TODO))
     v["corpus_cov"] = f"{cs['coverage_pct']}%" if cs else TODO
-    if vlm:
-        v["vlm_cer"] = pct(vlm["edits"], vlm["n"])
-        v["vlm_outside"] = f"{vlm['outside_khojki_share']:.0%}"
-    else:
-        v["vlm_cer"] = v["vlm_outside"] = TODO
+    v["vlm_cer"] = pct(vlm["edits"], vlm["n"]) if vlm else VLM_NOT_RUN
     stage_map = {r["stage"]: r for r in stages}
     for k in ("line_detection", "recognition", "mapping"):
         r = stage_map.get(k)
         v[f"stage_{k}"] = f"{r['edits']} ({float(r['share']):.0%})" if r else TODO
-    if conf:
-        top = conf[:3]
-        v["top3"] = "; ".join(
-            f"{r['gt_name'].split(' ', 1)[-1].lower() if r['gt'] else 'nothing'} → "
-            f"{r['pred_name'].split(' ', 1)[-1].lower() if r['pred'] else 'nothing'} ({r['count']})"
-            for r in top)
-    else:
-        v["top3"] = TODO
     return t, v
 
 

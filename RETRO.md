@@ -14,9 +14,8 @@ Recognition <!-- VAL:stage_recognition -->26 (100%)<!-- /VAL:stage_recognition -
 
 ## 4. Experiments that failed
 
-- Clean renders only: no learning in 10 minutes. After 20 minutes (<!-- VAL:epochs_clean -->2<!-- /VAL:epochs_clean --> epochs, synthetic val CER <!-- VAL:val_cer_clean -->29.2%<!-- /VAL:val_cer_clean -->) it scored <!-- VAL:cer_clean -->99.2% (118/119)<!-- /VAL:cer_clean --> on real lines. It also trained far less than the damaged model, so this does not isolate the effect of damage.
-- The damaged model gets <!-- VAL:gate_on_damaged -->99.82%<!-- /VAL:gate_on_damaged --> character accuracy on damaged synthetic lines and <!-- VAL:gate_on_clean -->-28.54%<!-- /VAL:gate_on_clean --> on clean white renders. It learned the paper texture too.
-- My first corpus put shadda after vowel signs, which the font draws as dotted circles.
+- Clean renders only: no learning in 10 minutes. After 20 minutes (<!-- VAL:epochs_clean -->2<!-- /VAL:epochs_clean --> epochs, synthetic val CER <!-- VAL:val_cer_clean -->29.2%<!-- /VAL:val_cer_clean -->) it scored <!-- VAL:cer_clean -->99.2% (118/119)<!-- /VAL:cer_clean --> on real lines. It trained too little to isolate the effect of damage.
+- The damaged model gets <!-- VAL:gate_on_damaged -->99.82%<!-- /VAL:gate_on_damaged --> character accuracy on damaged synthetic lines and <!-- VAL:gate_on_clean -->-28.54%<!-- /VAL:gate_on_clean --> on clean white renders.- My first corpus put shadda after vowel signs, which the font draws as dotted circles.
 - The render score does not track CER (Spearman <!-- VAL:spearman -->-0.718<!-- /VAL:spearman -->, 5 lines).
 
 ## 5. Encoding decisions
@@ -25,12 +24,12 @@ U+1123A as the word separator, Gujarati digits, atomic vowel signs only (all eig
 
 ## 6. Bottleneck
 
-Real labelled lines. The kraken documentation suggests at least 800 lines for a new model, and Reul et al. report under 1% CER on early printed books with about 1,000. The next step is to transcribe 800 to 1,000 lines of 1903-type print and fine-tune this model on them.
+Real labelled lines. kraken's docs suggest at least 800 lines for a new model, and Reul et al. report under 1% CER on early printed books with about 1,000. The next step is to transcribe 800 to 1,000 lines of 1903-type print and fine-tune this model on them.
 
 ## 7. Scale
 
-A page takes <!-- VAL:sec_per_page -->8.0<!-- /VAL:sec_per_page --> s on <!-- VAL:device -->cpu<!-- /VAL:device -->, so a few hundred pages fit in one overnight run (estimate). Labelling costs more than compute. My check was not timed. At 1 to 2 minutes per line (estimate), 1,000 lines is 17 to 33 hours of skilled work (estimate). Lithographs and handwriting need their own segmentation and data.
+A page takes <!-- VAL:sec_per_page -->8.0<!-- /VAL:sec_per_page --> s on <!-- VAL:device -->cpu<!-- /VAL:device -->, so a few hundred pages fit in one overnight run (estimate). Labelling is the real cost. Only the first full check was measured: about <!-- VAL:first_check_min -->34<!-- /VAL:first_check_min --> minutes, or <!-- VAL:first_check_per_line -->7<!-- /VAL:first_check_per_line --> minutes per line (self-reported). At that rate, 1,000 lines is about <!-- VAL:est_hours_1000 -->117<!-- /VAL:est_hours_1000 --> hours (estimate). Lithographs and handwriting need their own segmentation and data.
 
 ## 8. AI tools
 
-An AI drafted the ground truth. A person checked it against rendered glyphs and changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines: the draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER. The mistakes were plausible letter swaps (kha/pha/tha, ma/ta) and missed marks, which would otherwise have been scored as model errors. `AI_ERRORS.md` lists seven cases, each caught by rendering, `unicodedata.name()` or the spec itself.
+An AI drafted the ground truth. A person checked it against rendered glyphs and changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines: the draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER. The mistakes were plausible letter swaps (kha/pha/tha, ma/ta) and missed marks, which would otherwise have been scored as model errors. `AI_ERRORS.md` lists all seven cases.

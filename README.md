@@ -67,10 +67,10 @@ Run A uses the pipeline's own line boxes, matched to the hand-cropped boxes by I
 | damaged | A: auto line crop + normalize | 18.5% (22/119) | 19.4% (19/98) | 26.8% (22/82) |
 | damaged | B: oracle crop + normalize | 21.8% (26/119) | 23.5% (23/98) | 31.7% (26/82) |
 | damaged | C: oracle crop, raw model output | 21.8% (26/119) | 23.5% (23/98) | 31.7% (26/82) |
-| clean | A: auto line crop + normalize | 98.3% (117/119) | 98.0% (96/98) | 100.0% (82/82) |
-| clean | B: oracle crop + normalize | 99.2% (118/119) | 99.0% (97/98) | 100.0% (82/82) |
-| clean | C: oracle crop, raw model output | 99.2% (118/119) | 99.0% (97/98) | 100.0% (82/82) |
-| VLM baseline | not run (no API key) | [TODO] |  |  |
+| clean (did not converge: 2 epochs vs 23) | A: auto line crop + normalize | 98.3% (117/119) | 98.0% (96/98) | 100.0% (82/82) |
+| clean (did not converge: 2 epochs vs 23) | B: oracle crop + normalize | 99.2% (118/119) | 99.0% (97/98) | 100.0% (82/82) |
+| clean (did not converge: 2 epochs vs 23) | C: oracle crop, raw model output | 99.2% (118/119) | 99.0% (97/98) | 100.0% (82/82) |
+| VLM baseline | Not run (no API key). GlotOCR Bench (arXiv 2604.12978) reports all 14 tested systems score 0 on Khojki; not verified here. |  |  |  |
 <!-- /TABLE:cer -->
 
 Per line, damaged-data model, run B:
@@ -137,7 +137,7 @@ Pages run through the full pipeline (<!-- VAL:device -->cpu<!-- /VAL:device -->)
 
 Pages 1 and 9 have no ground truth. Their only check is the validator.
 
-VLM baseline: <!-- VAL:vlm_cer -->[TODO]<!-- /VAL:vlm_cer -->. `tools/vlm_baseline.py` is ready, but no API key was available on the build machine, so it was not run.
+VLM baseline: <!-- VAL:vlm_cer -->Not run (no API key). GlotOCR Bench (arXiv 2604.12978) reports all 14 tested systems score 0 on Khojki; not verified here.<!-- /VAL:vlm_cer --> `tools/vlm_baseline.py` is ready to run once a key is set.
 
 Every experiment, including the ones that failed:
 
@@ -178,7 +178,7 @@ The crops are in `data/gt_lines/`. Their boxes on the 400 DPI page are in `resul
 
 The human check changed <!-- VAL:draft_lines_changed -->4 of 5<!-- /VAL:draft_lines_changed --> lines. Against the checked lines, the AI draft had <!-- VAL:draft_cer -->10.1% (12/119)<!-- /VAL:draft_cer --> CER. Its mistakes were kha/pha/tha and ma/ta mix-ups, a missed anusvara, a missed II sign, and three misread glyphs in one line. Two glyphs are still uncertain. `GROUND_TRUTH.md` lists every change and the evidence for it.
 
-Seconds per verified line: <!-- VAL:sec_per_line -->[TODO]<!-- /VAL:sec_per_line -->. `tools/time_line.py` records this, but the check was not timed.
+Labelling time: only the first full check was measured. Finding and fixing errors in all 5 lines took about <!-- VAL:first_check_min -->34<!-- /VAL:first_check_min --> minutes, or about <!-- VAL:first_check_per_line -->7<!-- /VAL:first_check_per_line --> minutes per line. The labeller reported this time; no tool measured it (`results/labelling_manual.json`). The cost estimate in the retro uses this figure.
 
 ## Encoding decisions
 
@@ -204,7 +204,7 @@ All code points were checked with `unicodedata.name()`, not from memory. Where a
 - Damage only on textured paper. Every damaged training line has a paper texture. The damaged model fails on clean white renders (see the `gate_*` rows in the experiments table), so it has learned the background as well as the glyphs.
 - Segmentation is tuned to framed pages. It looks for a printed border and returns no lines on a blank page. It has not been tried on lithographs or handwriting.
 - The render score is unproven. Five lines are too few to tell whether it predicts errors.
-- No VLM comparison, because no API key was available.
+- No VLM comparison, because no API key was available. A published benchmark result is quoted above but was not checked here.
 - Two glyphs in the ground truth are still uncertain (see `GROUND_TRUTH.md`).
 
 ## Repository layout

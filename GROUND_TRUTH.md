@@ -6,10 +6,9 @@
 
 1. An AI assistant (Claude) made the first draft of each line. It matched each glyph in the scan to the Unicode chart.
 2. Each draft was drawn in Noto Sans Khojki under the scan crop (`*.check.png`). Each glyph was compared by eye, and the draft was corrected.
-3. **A person must check each line against the scan before you use it as ground truth.** Open the `*.check.png` file. Compare the shapes from left to right. Fix the line with `tools/ktype.py`, then run `tools/compare.py` again.
-4. Record the time that each check takes. Use that time as your labelling cost.
+3. A person checked each line against the scan: open the `*.check.png` file, compare the shapes from left to right, fix the line with `tools/ktype.py`, then run `tools/compare.py` again.
 
-State this method in the retro. The AI drafted the ground truth, and a person checked it. A reviewer must know this.
+The AI drafted the ground truth and a person checked it. The retro states this.
 
 ## Lines
 
@@ -49,7 +48,7 @@ Against the checked lines, the AI draft had 12 edits in 119 code points (10.1% C
 
 Page 18 manual line count: 16 (`gt_lines/page_counts.json`).
 
-Verification time per line was not recorded (`gt_lines/timing.csv` does not exist), so the labelling cost has no measured value.
+Labelling time: only the first full check was measured. Finding and fixing errors in all 5 lines took about 34 minutes, or about 7 minutes per line. The labeller reported this time; no tool measured it (`results/labelling_manual.json`).
 
 ## Glyphs still unsure
 

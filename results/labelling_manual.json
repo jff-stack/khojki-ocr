@@ -1,0 +1,9 @@
+{
+  "first_check": {
+    "lines": 5,
+    "total_minutes": 34,
+    "minutes_per_line": 7,
+    "tool_timed": false,
+    "note": "first full check of all 5 lines (find and fix errors), approximate time reported by the labeller"
+  }
+}
