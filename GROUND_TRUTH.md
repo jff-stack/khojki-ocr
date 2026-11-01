@@ -15,21 +15,47 @@ State this method in the retro. The AI drafted the ground truth, and a person ch
 
 | id | Confidence | Codes (input for ktype.py) | Unicode | Code points |
 |---|---|---|---|---|
-| p18_l02 | high | `U pa na+aa+M : kha+i ra sa ta+aa : ta ba : ba+aa ta+aa+M : ba ta ba : 16` | 𑈃𑈟𑈞𑈬𑈴𑈺𑈉𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈙𑈡𑈺૧૬ | 28 |
-| p18_l03 | high | `AA ga+e : AA da ma : kha+i ra sa ta+aa : sa+aa kha+M : 17` | 𑈁𑈊𑈰𑈺𑈁𑈛𑈤𑈺𑈉𑈭𑈦𑈩𑈙𑈬𑈺𑈩𑈬𑈉𑈴𑈺૧૭ | 22 |
-| p18_l04 | medium | `sa+o : sa ba : ha+u pa : A pa na+ii : ja+aa ma+aa+M : 18` | 𑈩𑈲𑈺𑈩𑈡𑈺𑈪𑈯𑈟𑈺𑈀𑈟𑈞𑈮𑈺𑈐𑈬𑈤𑈬𑈴𑈺૧૮ | 23 |
-| p18_l05 | medium | `pa+e ja+u+M ha+ii : sa+aa ja+aa : sa+aa+M ha+ii AA+M : pa ta ya ja ta :` | 𑈟𑈰𑈐𑈯𑈴𑈪𑈮𑈺𑈩𑈬𑈐𑈬𑈺𑈩𑈬𑈴𑈪𑈮𑈁𑈴𑈺𑈟𑈙𑈥𑈐𑈙𑈺 | 27 |
+These are the human-checked lines. The AI drafts are kept in `data/gt_draft/` for comparison.
+
+| id | Confidence | Codes (input for ktype.py) | Unicode | Code points |
+|---|---|---|---|---|
+| p18_l02 | high | `U pa na+aa+M : pha+i ra sa ta+aa : ta ba : ba+aa ta+aa+M : ba+ii ba : 16` | 𑈃𑈟𑈞𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈡𑈺૧૬ | 28 |
+| p18_l03 | high | `AA ga+e : AA da ma : pha+i ra sa ta+aa : sa+aa tha+aa+M : 17` | 𑈁𑈊𑈰𑈺𑈁𑈛𑈤𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈩𑈬𑈚𑈬𑈴𑈺૧૭ | 23 |
+| p18_l04 | medium | `sa+o : sa ba : ha+u pa : A pa ta+ii : ja+aa ta+aa+M : 18` | 𑈩𑈲𑈺𑈩𑈡𑈺𑈪𑈯𑈟𑈺𑈀𑈟𑈙𑈮𑈺𑈐𑈬𑈙𑈬𑈴𑈺૧૮ | 23 |
+| p18_l05 | medium | `va+e ja+u+M ha+ii+M : sa+aa ja+aa : sa+aa+M ha+ii AA+M : tha+ii ya+u ja ta :` | 𑈨𑈰𑈐𑈯𑈴𑈪𑈮𑈴𑈺𑈩𑈬𑈐𑈬𑈺𑈩𑈬𑈴𑈪𑈮𑈁𑈴𑈺𑈚𑈮𑈥𑈯𑈐𑈙𑈺 | 29 |
 | p18_l06 | high | `AA pa : na+i ra+M ja na : U pa na+aa+M :` | 𑈁𑈟𑈺𑈞𑈭𑈦𑈴𑈐𑈞𑈺𑈃𑈟𑈞𑈬𑈴𑈺 | 16 |
 
-Total: 116 code points. Full code point lists are in `gt_lines/lines.json`.
+Total: 119 code points. Full code point lists are in `gt_lines/lines.json`.
 
-## Glyphs to check first
+## Human check
 
-1. **p18_l04, word 3, last glyph:** pa or independent vowel E (U+11204).
-2. **p18_l04, word 4:** a small dot after A. It was ignored. It can be ink noise or an anusvara.
-3. **p18_l04, last word:** ma or ta.
-4. **p18_l05, glyph 1:** pa+e or kha+e.
-5. **p18_l02, glyph 2:** pa. It has a small curl at the base. The same shape is in p18_l04 and p18_l05, so it is probably how this type draws pa.
+The human check changed 4 of the 5 lines. Each change was drawn under the scan with `tools/compare.py` before it was accepted.
+
+| Line | Draft | Checked | Evidence in the scan |
+|---|---|---|---|
+| p18_l02 | kha+i | pha+i | closed loop at the bottom left, which only pha has |
+| p18_l02 | ba ta | ba+ii | the long tail below the line is the II sign |
+| p18_l03 | kha+i | pha+i | same loop as l02 |
+| p18_l03 | kha+M | tha+aa+M | three prongs on top (tha, kha has two), plus a vowel bar under the ring |
+| p18_l04 | ma+aa+M | ta+aa+M | same bottom-left loop as the ta in l02 and l03 |
+| p18_l04 | na+ii | ta+ii | same ta shape with an II sign |
+| p18_l05 | pa+e | va+e | closest match in the font |
+| p18_l05 | ha+ii | ha+ii+M | a missed anusvara |
+| p18_l05 | pa ta ya | tha+ii ya+u | three glyphs misread |
+
+The hollow ring above the vowel bar is anusvara (U+11234), not the abbreviation sign (U+1123D). Noto Sans Khojki draws the abbreviation sign on the baseline after the letter. The ring sits where anusvara goes, and these words end in "-āṃ", which needs anusvara.
+
+Against the checked lines, the AI draft had 12 edits in 119 code points (10.1% CER). `tools/draft_cer.py` computes this and writes `results/gt_draft_check.json`.
+
+Page 18 manual line count: 16 (`gt_lines/page_counts.json`).
+
+Verification time per line was not recorded (`gt_lines/timing.csv` does not exist), so the labelling cost has no measured value.
+
+## Glyphs still unsure
+
+1. **p18_l05, glyph 1:** va+e is the closest match, but it is not certain.
+2. **p18_l04, word 4:** ta+ii or na+ii.
+3. **p18_l04, word 4:** a small dot after A. It was ignored. It can be ink noise or an anusvara.
 
 ## Encoding rules used
 

@@ -3,45 +3,45 @@
   "id": "p18_l02",
   "page": 18,
   "source": "1903 Pir Imam Shah (contents page)",
-  "codes": "U pa na+aa+M : kha+i ra sa ta+aa : ta ba : ba+aa ta+aa+M : ba ta ba : 16",
-  "unicode": "𑈃𑈟𑈞𑈬𑈴𑈺𑈉𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈙𑈡𑈺૧૬",
-  "code_points": "U+11203 U+1121F U+1121E U+1122C U+11234 U+1123A U+11209 U+1122D U+11226 U+11229 U+11219 U+1122C U+1123A U+11219 U+11221 U+1123A U+11221 U+1122C U+11219 U+1122C U+11234 U+1123A U+11221 U+11219 U+11221 U+1123A U+0AE7 U+0AEC",
+  "codes": "U pa na+aa+M : pha+i ra sa ta+aa : ta ba : ba+aa ta+aa+M : ba+ii ba : 16",
+  "unicode": "𑈃𑈟𑈞𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈡𑈺૧૬",
+  "code_points": "U+11203 U+1121F U+1121E U+1122C U+11234 U+1123A U+11220 U+1122D U+11226 U+11229 U+11219 U+1122C U+1123A U+11219 U+11221 U+1123A U+11221 U+1122C U+11219 U+1122C U+11234 U+1123A U+11221 U+1122E U+11221 U+1123A U+0AE7 U+0AEC",
   "n_codepoints": 28,
   "confidence": "high",
-  "notes": "glyph 2 (pa) has a small curl at the base; could be a pa variant"
+  "notes": "human check: kha+i -> pha+i (closed loop bottom left), ba ta -> ba+ii (long tail); ring above vowel bar is anusvara"
  },
  {
   "id": "p18_l03",
   "page": 18,
   "source": "1903 Pir Imam Shah (contents page)",
-  "codes": "AA ga+e : AA da ma : kha+i ra sa ta+aa : sa+aa kha+M : 17",
-  "unicode": "𑈁𑈊𑈰𑈺𑈁𑈛𑈤𑈺𑈉𑈭𑈦𑈩𑈙𑈬𑈺𑈩𑈬𑈉𑈴𑈺૧૭",
-  "code_points": "U+11201 U+1120A U+11230 U+1123A U+11201 U+1121B U+11224 U+1123A U+11209 U+1122D U+11226 U+11229 U+11219 U+1122C U+1123A U+11229 U+1122C U+11209 U+11234 U+1123A U+0AE7 U+0AED",
-  "n_codepoints": 22,
+  "codes": "AA ga+e : AA da ma : pha+i ra sa ta+aa : sa+aa tha+aa+M : 17",
+  "unicode": "𑈁𑈊𑈰𑈺𑈁𑈛𑈤𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈩𑈬𑈚𑈬𑈴𑈺૧૭",
+  "code_points": "U+11201 U+1120A U+11230 U+1123A U+11201 U+1121B U+11224 U+1123A U+11220 U+1122D U+11226 U+11229 U+11219 U+1122C U+1123A U+11229 U+1122C U+1121A U+1122C U+11234 U+1123A U+0AE7 U+0AED",
+  "n_codepoints": 23,
   "confidence": "high",
-  "notes": "word 2 reads 'Aadam'"
+  "notes": "human check: kha+i -> pha+i, kha+M -> tha+aa+M (three prongs on top)"
  },
  {
   "id": "p18_l04",
   "page": 18,
   "source": "1903 Pir Imam Shah (contents page)",
-  "codes": "sa+o : sa ba : ha+u pa : A pa na+ii : ja+aa ma+aa+M : 18",
-  "unicode": "𑈩𑈲𑈺𑈩𑈡𑈺𑈪𑈯𑈟𑈺𑈀𑈟𑈞𑈮𑈺𑈐𑈬𑈤𑈬𑈴𑈺૧૮",
-  "code_points": "U+11229 U+11232 U+1123A U+11229 U+11221 U+1123A U+1122A U+1122F U+1121F U+1123A U+11200 U+1121F U+1121E U+1122E U+1123A U+11210 U+1122C U+11224 U+1122C U+11234 U+1123A U+0AE7 U+0AEE",
+  "codes": "sa+o : sa ba : ha+u pa : A pa ta+ii : ja+aa ta+aa+M : 18",
+  "unicode": "𑈩𑈲𑈺𑈩𑈡𑈺𑈪𑈯𑈟𑈺𑈀𑈟𑈙𑈮𑈺𑈐𑈬𑈙𑈬𑈴𑈺૧૮",
+  "code_points": "U+11229 U+11232 U+1123A U+11229 U+11221 U+1123A U+1122A U+1122F U+1121F U+1123A U+11200 U+1121F U+11219 U+1122E U+1123A U+11210 U+1122C U+11219 U+1122C U+11234 U+1123A U+0AE7 U+0AEE",
   "n_codepoints": 23,
   "confidence": "medium",
-  "notes": "last glyph of word 3 may be E (U+11204) not pa; stray dot after A in word 4 ignored; ma vs ta in last word"
+  "notes": "human check: ma+aa+M -> ta+aa+M, na+ii -> ta+ii; word 4 still unsure (ta+ii or na+ii)"
  },
  {
   "id": "p18_l05",
   "page": 18,
   "source": "1903 Pir Imam Shah (contents page)",
-  "codes": "pa+e ja+u+M ha+ii : sa+aa ja+aa : sa+aa+M ha+ii AA+M : pa ta ya ja ta :",
-  "unicode": "𑈟𑈰𑈐𑈯𑈴𑈪𑈮𑈺𑈩𑈬𑈐𑈬𑈺𑈩𑈬𑈴𑈪𑈮𑈁𑈴𑈺𑈟𑈙𑈥𑈐𑈙𑈺",
-  "code_points": "U+1121F U+11230 U+11210 U+1122F U+11234 U+1122A U+1122E U+1123A U+11229 U+1122C U+11210 U+1122C U+1123A U+11229 U+1122C U+11234 U+1122A U+1122E U+11201 U+11234 U+1123A U+1121F U+11219 U+11225 U+11210 U+11219 U+1123A",
-  "n_codepoints": 27,
+  "codes": "va+e ja+u+M ha+ii+M : sa+aa ja+aa : sa+aa+M ha+ii AA+M : tha+ii ya+u ja ta :",
+  "unicode": "𑈨𑈰𑈐𑈯𑈴𑈪𑈮𑈴𑈺𑈩𑈬𑈐𑈬𑈺𑈩𑈬𑈴𑈪𑈮𑈁𑈴𑈺𑈚𑈮𑈥𑈯𑈐𑈙𑈺",
+  "code_points": "U+11228 U+11230 U+11210 U+1122F U+11234 U+1122A U+1122E U+11234 U+1123A U+11229 U+1122C U+11210 U+1122C U+1123A U+11229 U+1122C U+11234 U+1122A U+1122E U+11201 U+11234 U+1123A U+1121A U+1122E U+11225 U+1122F U+11210 U+11219 U+1123A",
+  "n_codepoints": 29,
   "confidence": "medium",
-  "notes": "glyph 1 (pa+e) unsure, could be kha+e; first read ja+M, corrected to ja+u+M by render check"
+  "notes": "human check: pa+e -> va+e, ha+ii -> ha+ii+M, pa ta ya -> tha+ii ya+u; glyph 1 still unsure (va+e closest)"
  },
  {
   "id": "p18_l06",
