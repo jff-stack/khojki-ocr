@@ -1,0 +1,21 @@
+{
+ "lines": {
+  "gujarati": 295,
+  "generated": 1176,
+  "punctuation": 600
+ },
+ "total": 2071,
+ "coverage_pct": 100.0,
+ "coverage": {
+  "covered": 74,
+  "target": 74,
+  "missing": []
+ },
+ "gujarati_repairs": {
+  "mark_order": 4
+ },
+ "gujarati_rejected": {},
+ "dropped_dotted_circle": {
+  "gujarati": 5
+ }
+}
