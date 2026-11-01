@@ -31,7 +31,7 @@ train:
 		$$($(PY) -c "import json;print(json.load(open('results/train_summary.json'))['damaged']['best_checkpoint'])")
 
 train-clean:
-	KETOS=$(KETOS) tools/train.sh data/synth/clean clean 10 $(DEVICE)
+	KETOS=$(KETOS) tools/train.sh data/synth/clean clean 20 $(DEVICE)
 	$(PY) tools/train_summary.py
 	$(KETOS) convert -o models/khojki_clean.mlmodel --weights-format coreml \
 		$$($(PY) -c "import json;print(json.load(open('results/train_summary.json'))['clean']['best_checkpoint'])")

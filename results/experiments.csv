@@ -7,3 +7,5 @@ date,name,settings,metric,value,minutes
 2026-11-01,train_clean_10min,"from scratch, 4000 clean lines, batch 16, cap 10 min",val_accuracy_after_2_epochs,0.0,10
 2026-11-01,gate_khojki_best_on_damaged,"last 20 lines, ketos test",char_accuracy_pct,99.82,0
 2026-11-01,gate_khojki_best_on_clean,"last 20 lines, ketos test",char_accuracy_pct,-28.54,0
+2026-11-01,train_clean_20min,"from scratch, 4000 clean lines, batch 16, early stop lag 5, cap 20 min",val_cer,0.2916,20
+2026-11-01,gate_khojki_clean_on_clean,"last 20 lines, ketos test",char_accuracy_pct,68.99,0

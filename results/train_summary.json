@@ -9,12 +9,12 @@
     "early_stopped": true
   },
   "clean": {
-    "best_epoch": 0,
-    "best_checkpoint": "models/runs/clean/checkpoint_00-0.0000.ckpt",
-    "val_accuracy": 0.0,
-    "val_cer": 1.0,
-    "epochs": 1,
-    "minutes": null,
+    "best_epoch": 1,
+    "best_checkpoint": "models/runs/clean/checkpoint_01-0.7084.ckpt",
+    "val_accuracy": 0.7084,
+    "val_cer": 0.2916,
+    "epochs": 2,
+    "minutes": 20,
     "early_stopped": false
   }
 }
