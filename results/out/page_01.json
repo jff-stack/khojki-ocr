@@ -1,0 +1,222 @@
+{
+ "page": "page_01.png",
+ "size": [
+  3584,
+  5188
+ ],
+ "skew_degrees": 0.5,
+ "text_block": [
+  358,
+  0,
+  3225,
+  5097
+ ],
+ "segment_seconds": 1.322,
+ "seconds": 8.45,
+ "lines": [
+  {
+   "line": 1,
+   "box": [
+    376,
+    168,
+    3225,
+    393
+   ],
+   "raw": "𑈟𑈦𑈭𑈴𑈛𑈷𑈺𑈨𑈏𑈰𑈺𑈑𑈮𑈟𑈺𑈟𑈷𑈖𑈶𑈟𑈊𑈴𑈩𑈰",
+   "text": "𑈟𑈦𑈭𑈴𑈛𑈷𑈺𑈨𑈏𑈰𑈺𑈑𑈮𑈟𑈺𑈟𑈷𑈖𑈶𑈟𑈊𑈴𑈩𑈰",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8906,
+   "render_score": 0.7858,
+   "seconds": 0.433
+  },
+  {
+   "line": 2,
+   "box": [
+    374,
+    383,
+    3225,
+    649
+   ],
+   "raw": "𑉀𑈈𑈶𑈱𑈖𑈷𑈟𑈴𑈧𑈭𑈺𑈙𑈰𑈮𑈠𑈶𑈯𑈴𑈺𑈟𑈛𑈰𑈑𑈱𑈴𑈟𑈰𑈴𑈟𑈷𑈴𑈺𑈮𑈧𑈟𑈯𑈴𑈓𑈺𑈗𑈴𑈰𑈖𑈾𑈺𑈞𑈮𑈳𑈱𑈺૬",
+   "text": "𑉀𑈈𑈶𑈱𑈖𑈷𑈟𑈴𑈧𑈭𑈺𑈙𑈰𑈮𑈠𑈶𑈯𑈴𑈺𑈟𑈛𑈰𑈑𑈱𑈴𑈟𑈰𑈴𑈟𑈷𑈴𑈺𑈮𑈧𑈟𑈯𑈴𑈓𑈺𑈗𑈰𑈴𑈖𑈾𑈺𑈞𑈮𑈳𑈱𑈺૬",
+   "repairs": {
+    "mark_order": 1
+   },
+   "errors": [
+    "pos 32: orphan mark U+1122E KHOJKI VOWEL SIGN II after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 11: 2 vowel signs on one letter",
+    "pos 45: 3 vowel signs on one letter"
+   ],
+   "confidence": 0.8287,
+   "render_score": 0.7011,
+   "seconds": 0.579
+  },
+  {
+   "line": 3,
+   "box": [
+    370,
+    867,
+    3225,
+    1105
+   ],
+   "raw": "𑈡𑈺𑈀𑈑𑈗𑈴𑈺𑈛𑈴𑈘𑈮𑈺𑈓𑈀𑈚𑈺𑈊𑈴𑈠𑈰𑈨𑈺𑈀𑈟𑈴𑈷𑈰𑈀𑈠𑈺𑈝𑈲",
+   "text": "𑈡𑈺𑈀𑈑𑈗𑈴𑈺𑈛𑈴𑈘𑈮𑈺𑈓𑈀𑈚𑈺𑈊𑈴𑈠𑈰𑈨𑈺𑈀𑈟𑈰𑈴𑈷𑈀𑈠𑈺𑈝𑈲",
+   "repairs": {
+    "mark_order": 1
+   },
+   "errors": [],
+   "confidence": 0.8633,
+   "render_score": 0.7148,
+   "seconds": 0.468
+  },
+  {
+   "line": 4,
+   "box": [
+    366,
+    1309,
+    3225,
+    1572
+   ],
+   "raw": "𑈿𑈴𑈺𑈖𑈭𑈴𑈛𑈶𑈭𑈓𑈰𑈛𑈿𑈥𑈟𑈺𑈡𑈛𑈶𑈯𑈺𑈝𑈰𑈞𑈮𑈺𑈏𑈭𑈛𑈰𑈔𑈰𑈡𑈶𑈮𑈺𑈊𑈜𑈺𑈗",
+   "text": "𑈿𑈴𑈺𑈖𑈭𑈴𑈛𑈶𑈭𑈓𑈰𑈛𑈿𑈥𑈟𑈺𑈡𑈛𑈶𑈯𑈺𑈝𑈰𑈞𑈮𑈺𑈏𑈭𑈛𑈰𑈔𑈰𑈡𑈶𑈮𑈺𑈊𑈜𑈺𑈗",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8337,
+   "render_score": 0.7134,
+   "seconds": 0.556
+  },
+  {
+   "line": 5,
+   "box": [
+    362,
+    1722,
+    3225,
+    1999
+   ],
+   "raw": "𑈩𑈰𑈴𑈺𑈚𑈺𑈚𑈭𑈴𑈦𑈰𑈺𑈞𑈮𑈩𑈝𑈵𑈺𑈝𑈰𑈤𑈟𑈰𑈺𑈘𑈰𑈤𑈷𑈿𑈴𑈺𑈿𑈮𑈲𑈰𑉀𑈺𑈨",
+   "text": "𑈩𑈰𑈴𑈺𑈚𑈺𑈚𑈭𑈴𑈦𑈰𑈺𑈞𑈮𑈩𑈝𑈵𑈺𑈝𑈰𑈤𑈟𑈰𑈺𑈘𑈰𑈤𑈷𑈿𑈴𑈺𑈿𑈮𑈲𑈰𑉀𑈺𑈨",
+   "repairs": {},
+   "errors": [
+    "pos 31: 3 vowel signs on one letter"
+   ],
+   "confidence": 0.8373,
+   "render_score": 0.711,
+   "seconds": 0.62
+  },
+  {
+   "line": 6,
+   "box": [
+    359,
+    2178,
+    3225,
+    2441
+   ],
+   "raw": "𑈨𑈰𑈺𑈧𑈺𑈗𑈰𑈏𑈺𑈙𑈨𑈲𑈴𑈲𑈺𑈨𑈵𑈦𑈝𑈈𑈴𑈺𑈞𑈴𑈺𑈝𑈥𑈚𑈶𑈱𑈺𑈟𑈺𑈀𑈟𑈴𑈟𑈺𑈗𑈟𑈰𑈟",
+   "text": "𑈨𑈰𑈺𑈧𑈺𑈗𑈰𑈏𑈺𑈙𑈨𑈲𑈲𑈴𑈺𑈨𑈵𑈦𑈝𑈈𑈴𑈺𑈞𑈴𑈺𑈝𑈥𑈚𑈶𑈱𑈺𑈟𑈺𑈀𑈟𑈴𑈟𑈺𑈗𑈟𑈰𑈟",
+   "repairs": {
+    "mark_order": 1
+   },
+   "errors": [
+    "pos 10: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.8087,
+   "render_score": 0.6335,
+   "seconds": 0.566
+  },
+  {
+   "line": 7,
+   "box": [
+    358,
+    2589,
+    3224,
+    2888
+   ],
+   "raw": "𑈙𑈑𑈰𑈙𑈺𑈬𑈔𑈥𑈺𑈉𑈮𑈓𑈺𑈟𑈴𑈱𑈗𑈷𑈟𑈟𑈺𑈛𑈮𑈪𑈰𑈺𑈟𑈷𑈰𑈑𑈳𑈟𑈰𑈔",
+   "text": "𑈙𑈑𑈰𑈙𑈺𑈬𑈔𑈥𑈺𑈉𑈮𑈓𑈺𑈟𑈱𑈴𑈗𑈷𑈟𑈟𑈺𑈛𑈮𑈪𑈰𑈺𑈟𑈰𑈷𑈑𑈳𑈟𑈰𑈔",
+   "repairs": {
+    "mark_order": 2
+   },
+   "errors": [
+    "pos 5: orphan mark U+1122C KHOJKI VOWEL SIGN AA after U+1123A KHOJKI WORD SEPARATOR"
+   ],
+   "confidence": 0.9313,
+   "render_score": 0.7159,
+   "seconds": 0.724
+  },
+  {
+   "line": 8,
+   "box": [
+    358,
+    3064,
+    3220,
+    3334
+   ],
+   "raw": "𑈗𑈰𑈴𑈷𑈶𑈱𑈆𑈺𑈓𑈺𑈝𑈵𑈥𑈏𑈶𑈱𑈺𑈞𑈛𑈴𑈿𑈭𑈺𑈓𑈴𑈖𑈰𑈗𑈮𑈴𑈟𑈰𑈺𑈿𑈯𑈀𑈟𑈺𑈗𑈴𑈀",
+   "text": "𑈗𑈶𑈰𑈱𑈴𑈷𑈆𑈺𑈓𑈺𑈝𑈵𑈥𑈏𑈶𑈱𑈺𑈞𑈛𑈴𑈿𑈭𑈺𑈓𑈴𑈖𑈰𑈗𑈮𑈴𑈟𑈰𑈺𑈿𑈯𑈀𑈟𑈺𑈗𑈴𑈀",
+   "repairs": {
+    "mark_order": 1
+   },
+   "errors": [
+    "pos 0: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.8717,
+   "render_score": 0.7627,
+   "seconds": 0.605
+  },
+  {
+   "line": 9,
+   "box": [
+    358,
+    3534,
+    3216,
+    3926
+   ],
+   "raw": "𑈙𑈰𑈺𑈛𑈛𑈵𑈺𑈛𑈲𑈞𑈺𑈈𑈷𑈧𑈞𑈰𑈁𑈺𑈟𑈭𑈝𑈗𑈷𑈺𑈀𑈤𑈛𑈮",
+   "text": "𑈙𑈰𑈺𑈛𑈛𑈵𑈺𑈛𑈲𑈞𑈺𑈈𑈷𑈧𑈞𑈰𑈁𑈺𑈟𑈭𑈝𑈗𑈷𑈺𑈀𑈤𑈛𑈮",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9086,
+   "render_score": 0.6851,
+   "seconds": 1.205
+  },
+  {
+   "line": 10,
+   "box": [
+    358,
+    4040,
+    3211,
+    4325
+   ],
+   "raw": "𑈡𑈮𑈺𑈗𑈵𑈯𑈥𑈺𑈟𑈭𑈐𑈰𑈺𑈀𑈟𑈴𑈟𑈺𑈏𑈝𑈮𑈥𑈡𑈷𑈰𑈺𑈙𑈯𑈐𑈲𑈺𑈉𑈰𑈔",
+   "text": "𑈡𑈮𑈺𑈗𑈯𑈵𑈥𑈺𑈟𑈭𑈐𑈰𑈺𑈀𑈟𑈴𑈟𑈺𑈏𑈝𑈮𑈥𑈡𑈰𑈷𑈺𑈙𑈯𑈐𑈲𑈺𑈉𑈰𑈔",
+   "repairs": {
+    "mark_order": 2
+   },
+   "errors": [],
+   "confidence": 0.8598,
+   "render_score": 0.7021,
+   "seconds": 0.716
+  },
+  {
+   "line": 11,
+   "box": [
+    358,
+    4527,
+    3207,
+    4814
+   ],
+   "raw": "𑈑𑈰𑈛𑈴𑈺𑈡𑈰𑈯𑈟𑈶𑈴𑈟𑈰𑈦𑈭𑈰𑈿𑈀𑈺𑈥𑈴𑈦𑈰𑈰𑈺𑈟𑈷𑈺𑈊𑈲𑈺𑈚𑈑𑈲𑈗",
+   "text": "𑈑𑈰𑈛𑈴𑈺𑈡𑈰𑈯𑈟𑈶𑈴𑈟𑈰𑈦𑈭𑈰𑈿𑈀𑈺𑈥𑈴𑈦𑈰𑈰𑈺𑈟𑈷𑈺𑈊𑈲𑈺𑈚𑈑𑈲𑈗",
+   "repairs": {},
+   "errors": [
+    "pos 5: 2 vowel signs on one letter",
+    "pos 13: 2 vowel signs on one letter",
+    "pos 21: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.7857,
+   "render_score": 0.7013,
+   "seconds": 0.657
+  }
+ ]
+}

@@ -1,0 +1,231 @@
+{
+ "page": "page_09.png",
+ "size": [
+  3438,
+  5188
+ ],
+ "skew_degrees": 0.25,
+ "text_block": [
+  208,
+  411,
+  3287,
+  4717
+ ],
+ "segment_seconds": 1.293,
+ "seconds": 12.516,
+ "lines": [
+  {
+   "line": 1,
+   "box": [
+    215,
+    519,
+    3287,
+    925
+   ],
+   "raw": "𑈈𑈓𑈗𑈮𑈟𑈺𑈝𑈮𑈡𑈺𑈏𑈶𑈷𑈪𑈰𑈓𑈢𑈬𑈛𑈴𑈺𑈕𑈱𑈱",
+   "text": "𑈈𑈓𑈗𑈮𑈟𑈺𑈝𑈮𑈡𑈺𑈏𑈶𑈷𑈪𑈰𑈓𑈢𑈬𑈛𑈴𑈺𑈕𑈱𑈱",
+   "repairs": {},
+   "errors": [
+    "pos 21: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.8587,
+   "render_score": 0.6764,
+   "seconds": 1.391
+  },
+  {
+   "line": 2,
+   "box": [
+    213,
+    867,
+    3287,
+    1260
+   ],
+   "raw": "𑈆𑈺𑈩𑈲𑈖𑈺𑈆𑈝𑈬𑈘𑈶𑈴𑈺𑈚𑈶𑈰𑈧𑈮𑈺𑈀𑈟𑈢𑈓𑈤𑈰𑈰",
+   "text": "𑈆𑈺𑈩𑈲𑈖𑈺𑈆𑈝𑈬𑈘𑈶𑈴𑈺𑈚𑈶𑈰𑈧𑈮𑈺𑈀𑈟𑈢𑈓𑈤𑈰𑈰",
+   "repairs": {},
+   "errors": [
+    "pos 23: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.9059,
+   "render_score": 0.708,
+   "seconds": 1.314
+  },
+  {
+   "line": 3,
+   "box": [
+    212,
+    1293,
+    3287,
+    1495
+   ],
+   "raw": "𑈼𑈺𑈴𑈰𑈴𑈰𑈴𑈮𑈲𑈰𑈭𑉀𑈯𑈺𑈀𑈀𑈺",
+   "text": "𑈼𑈺𑈴𑈰𑈴𑈰𑈴𑈮𑈲𑈰𑈭𑉀𑈯𑈺𑈀𑈀𑈺",
+   "repairs": {},
+   "errors": [
+    "pos 2: orphan mark U+11234 KHOJKI SIGN ANUSVARA after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 3: orphan mark U+11230 KHOJKI VOWEL SIGN E after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 4: orphan mark U+11234 KHOJKI SIGN ANUSVARA after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 5: orphan mark U+11230 KHOJKI VOWEL SIGN E after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 6: orphan mark U+11234 KHOJKI SIGN ANUSVARA after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 7: orphan mark U+1122E KHOJKI VOWEL SIGN II after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 8: orphan mark U+11232 KHOJKI VOWEL SIGN O after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 9: orphan mark U+11230 KHOJKI VOWEL SIGN E after U+1123A KHOJKI WORD SEPARATOR",
+    "pos 10: orphan mark U+1122D KHOJKI VOWEL SIGN I after U+1123A KHOJKI WORD SEPARATOR"
+   ],
+   "confidence": 0.7104,
+   "render_score": 0.8851,
+   "seconds": 0.371
+  },
+  {
+   "line": 4,
+   "box": [
+    210,
+    1627,
+    3287,
+    1938
+   ],
+   "raw": "𑈪𑈟𑈴𑈺𑈪𑈄𑈺𑈓𑈖𑈤𑈰𑈴𑈺𑈗𑈮𑈡𑈮𑈺𑈗𑈬𑈞𑈯𑈴𑈺𑈓𑈓𑈬𑈲𑈴",
+   "text": "𑈪𑈟𑈴𑈺𑈪𑈄𑈺𑈓𑈖𑈤𑈰𑈴𑈺𑈗𑈮𑈡𑈮𑈺𑈗𑈬𑈞𑈯𑈴𑈺𑈓𑈓𑈬𑈲𑈴",
+   "repairs": {},
+   "errors": [
+    "pos 25: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.9079,
+   "render_score": 0.7019,
+   "seconds": 0.821
+  },
+  {
+   "line": 5,
+   "box": [
+    209,
+    1946,
+    3287,
+    2324
+   ],
+   "raw": "𑈙𑈱𑈺𑈢𑈺𑈈𑈺𑈿𑈏𑈵𑈟𑈭𑈞𑈮𑈺𑈃𑈺𑈓𑈶𑈲𑈪𑈷𑈺𑈪𑈯𑈩𑈱𑈑𑈬",
+   "text": "𑈙𑈱𑈺𑈢𑈺𑈈𑈺𑈿𑈏𑈵𑈟𑈭𑈞𑈮𑈺𑈃𑈺𑈓𑈶𑈲𑈪𑈷𑈺𑈪𑈯𑈩𑈱𑈑𑈬",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8823,
+   "render_score": 0.7731,
+   "seconds": 1.203
+  },
+  {
+   "line": 6,
+   "box": [
+    208,
+    2300,
+    3287,
+    2652
+   ],
+   "raw": "𑈌𑈰𑈺𑈝𑈵𑈩𑈶𑈴𑈙𑈱𑈺𑈿𑈰𑈤𑈰𑈺𑈪𑈟𑈭𑈺𑈞𑈶𑈴𑈘𑈴𑈺𑈑𑈮𑈓𑈺𑈧𑈬",
+   "text": "𑈌𑈰𑈺𑈝𑈵𑈩𑈶𑈴𑈙𑈱𑈺𑈿𑈰𑈤𑈰𑈺𑈪𑈟𑈭𑈺𑈞𑈶𑈴𑈘𑈴𑈺𑈑𑈮𑈓𑈺𑈧𑈬",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9022,
+   "render_score": 0.7157,
+   "seconds": 1.048
+  },
+  {
+   "line": 7,
+   "box": [
+    208,
+    2658,
+    3286,
+    2988
+   ],
+   "raw": "𑈄𑈡𑈮𑈺𑈩𑈺𑈀𑈴𑈺𑈤𑈶𑈯𑈴𑈺𑈿𑈬𑈪𑈯𑈺𑈀𑈅𑈓𑈭𑈓𑈶𑈰𑈺𑈓𑈟𑈥𑈶𑈲",
+   "text": "𑈄𑈡𑈮𑈺𑈩𑈺𑈀𑈴𑈺𑈤𑈶𑈯𑈴𑈺𑈿𑈬𑈪𑈯𑈺𑈀𑈅𑈓𑈭𑈓𑈶𑈰𑈺𑈓𑈟𑈥𑈶𑈲",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9121,
+   "render_score": 0.7389,
+   "seconds": 0.925
+  },
+  {
+   "line": 8,
+   "box": [
+    208,
+    2990,
+    3285,
+    3340
+   ],
+   "raw": "𑈆𑈞𑈺𑈟𑈓𑈺𑈪𑈬𑈝𑈺𑈗𑈯𑈴𑈘𑈚𑈭𑈴𑈙𑈮𑈺𑈩𑈺𑈤𑈱𑈤𑈶𑈰",
+   "text": "𑈆𑈞𑈺𑈟𑈓𑈺𑈪𑈬𑈝𑈺𑈗𑈯𑈴𑈘𑈚𑈭𑈴𑈙𑈮𑈺𑈩𑈺𑈤𑈱𑈤𑈶𑈰",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8985,
+   "render_score": 0.721,
+   "seconds": 1.034
+  },
+  {
+   "line": 9,
+   "box": [
+    208,
+    3366,
+    3283,
+    3666
+   ],
+   "raw": "𑈜𑈺𑈡𑈮𑈡𑈮𑈗𑈮𑈺𑈞𑈲𑈴𑈤𑈶𑈳𑈴𑈺𑈢𑈮𑈥𑈙𑈖𑈮𑈺𑈏𑈟𑈬",
+   "text": "𑈜𑈺𑈡𑈮𑈡𑈮𑈗𑈮𑈺𑈞𑈲𑈴𑈤𑈶𑈳𑈴𑈺𑈢𑈮𑈥𑈙𑈖𑈮𑈺𑈏𑈟𑈬",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8794,
+   "render_score": 0.7373,
+   "seconds": 0.766
+  },
+  {
+   "line": 10,
+   "box": [
+    208,
+    3705,
+    3281,
+    4029
+   ],
+   "raw": "𑈘𑈰𑈮𑈀𑈓𑈺𑈛𑈚𑈮𑈝𑈵𑈄𑈭𑈝𑈮𑈺𑈩𑈺𑈥𑈺𑈛𑈰𑈜𑈷𑈬𑈝𑈶𑈱𑈶𑈱",
+   "text": "𑈘𑈰𑈮𑈀𑈓𑈺𑈛𑈚𑈮𑈝𑈵𑈄𑈭𑈝𑈮𑈺𑈩𑈺𑈥𑈺𑈛𑈰𑈜𑈬𑈷𑈝𑈶𑈶𑈱𑈱",
+   "repairs": {
+    "mark_order": 2
+   },
+   "errors": [
+    "pos 0: 2 vowel signs on one letter",
+    "pos 25: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.8413,
+   "render_score": 0.7867,
+   "seconds": 0.887
+  },
+  {
+   "line": 11,
+   "box": [
+    208,
+    4056,
+    3280,
+    4353
+   ],
+   "raw": "𑈝𑈬𑈪𑈰𑈺𑈘𑈯𑈓𑈙𑈶𑈐𑈶𑈔𑈺𑈅𑈝𑈮𑈺𑈏𑈶𑈰𑈈𑈟𑈴𑈺𑈀𑈗𑈮𑈓𑈬",
+   "text": "𑈝𑈬𑈪𑈰𑈺𑈘𑈯𑈓𑈙𑈶𑈐𑈶𑈔𑈺𑈅𑈝𑈮𑈺𑈏𑈶𑈰𑈈𑈟𑈴𑈺𑈀𑈗𑈮𑈓𑈬",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8464,
+   "render_score": 0.7964,
+   "seconds": 0.755
+  },
+  {
+   "line": 12,
+   "box": [
+    208,
+    4420,
+    3278,
+    4708
+   ],
+   "raw": "𑈟𑈏𑈯𑈦𑈙𑈤𑈺𑈟𑈟𑈗𑈺𑈈𑈰𑈙𑈝𑈬𑈤𑈺𑈚𑈭𑈴𑈟𑈭𑈺𑈏𑈝𑈬𑈴",
+   "text": "𑈟𑈏𑈯𑈦𑈙𑈤𑈺𑈟𑈟𑈗𑈺𑈈𑈰𑈙𑈝𑈬𑈤𑈺𑈚𑈭𑈴𑈟𑈭𑈺𑈏𑈝𑈬𑈴",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.8681,
+   "render_score": 0.7158,
+   "seconds": 0.707
+  }
+ ]
+}

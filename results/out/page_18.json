@@ -1,0 +1,291 @@
+{
+ "page": "page_18.png",
+ "size": [
+  3142,
+  5188
+ ],
+ "skew_degrees": 0.75,
+ "text_block": [
+  193,
+  442,
+  2986,
+  4724
+ ],
+ "segment_seconds": 1.322,
+ "seconds": 7.964,
+ "lines": [
+  {
+   "line": 1,
+   "box": [
+    216,
+    606,
+    2986,
+    821
+   ],
+   "raw": "𑈃𑈟𑈞𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈙𑈮𑈺૬",
+   "text": "𑈃𑈟𑈞𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈙𑈮𑈺૬",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9822,
+   "render_score": 0.7505,
+   "seconds": 0.518
+  },
+  {
+   "line": 2,
+   "box": [
+    213,
+    862,
+    2986,
+    1069
+   ],
+   "raw": "𑈁𑈊𑈰𑈺𑈁𑈛𑈤𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈩𑈬𑈴૭",
+   "text": "𑈁𑈊𑈰𑈺𑈁𑈛𑈤𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈩𑈬𑈴૭",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9592,
+   "render_score": 0.7716,
+   "seconds": 0.362
+  },
+  {
+   "line": 3,
+   "box": [
+    209,
+    1106,
+    2986,
+    1353
+   ],
+   "raw": "𑈩𑈬𑈺𑈩𑈡𑈺𑈪𑈯𑈟𑈭𑈺𑈀𑈟𑈘𑈮𑈺𑈐𑈬𑈙𑈬𑈴𑈺૮",
+   "text": "𑈩𑈬𑈺𑈩𑈡𑈺𑈪𑈯𑈟𑈭𑈺𑈀𑈟𑈘𑈮𑈺𑈐𑈬𑈙𑈬𑈴𑈺૮",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9878,
+   "render_score": 0.8041,
+   "seconds": 0.488
+  },
+  {
+   "line": 4,
+   "box": [
+    206,
+    1362,
+    2986,
+    1610
+   ],
+   "raw": "𑈼𑈰𑈙𑈯𑈴𑈌𑈮𑈴𑈺𑈩𑈬𑈎𑈬𑈺𑈩𑈬𑈴𑈪𑈮𑈁𑈴𑈺𑈉𑈮𑈥𑈯𑈐𑈮𑈺",
+   "text": "𑈼𑈰𑈙𑈯𑈴𑈌𑈮𑈴𑈺𑈩𑈬𑈎𑈬𑈺𑈩𑈬𑈴𑈪𑈮𑈁𑈴𑈺𑈉𑈮𑈥𑈯𑈐𑈮𑈺",
+   "repairs": {},
+   "errors": [
+    "pos 1: orphan mark U+11230 KHOJKI VOWEL SIGN E after U+1123C KHOJKI DOUBLE SECTION MARK"
+   ],
+   "confidence": 0.9628,
+   "render_score": 0.6437,
+   "seconds": 0.486
+  },
+  {
+   "line": 5,
+   "box": [
+    203,
+    1637,
+    2986,
+    1830
+   ],
+   "raw": "𑈀𑈟𑈺𑈑𑈭𑈦𑈴𑈐𑈮𑈿𑈺𑈃𑈟𑈞𑈬𑈴",
+   "text": "𑈀𑈟𑈺𑈑𑈭𑈦𑈴𑈐𑈮𑈿𑈺𑈃𑈟𑈞𑈬𑈴",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9403,
+   "render_score": 0.6962,
+   "seconds": 0.442
+  },
+  {
+   "line": 6,
+   "box": [
+    199,
+    1873,
+    2986,
+    2089
+   ],
+   "raw": "𑈀𑈞𑈰𑈺𑈁𑈟𑈰𑈴𑈺𑈃𑈟𑈬𑉀𑈔𑈺𑈐𑈬𑈙𑈺𑈦𑈰𑈺𑈻",
+   "text": "𑈀𑈞𑈰𑈺𑈁𑈟𑈰𑈴𑈺𑈃𑈟𑈬𑉀𑈔𑈺𑈐𑈬𑈙𑈺𑈦𑈰𑈺𑈻",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9578,
+   "render_score": 0.7999,
+   "seconds": 0.4
+  },
+  {
+   "line": 7,
+   "box": [
+    196,
+    2135,
+    2986,
+    2340
+   ],
+   "raw": "𑈀𑈟𑈩𑈺𑈤𑈬𑈴𑈪𑈰𑈴𑈚𑈮𑈺𑈃𑈟𑈞𑈬𑈴𑈺𑈴",
+   "text": "𑈀𑈟𑈩𑈺𑈤𑈬𑈴𑈪𑈰𑈴𑈚𑈮𑈺𑈃𑈟𑈞𑈬𑈴𑈺𑈴",
+   "repairs": {},
+   "errors": [
+    "pos 19: orphan mark U+11234 KHOJKI SIGN ANUSVARA after U+1123A KHOJKI WORD SEPARATOR"
+   ],
+   "confidence": 0.9508,
+   "render_score": 0.7245,
+   "seconds": 0.359
+  },
+  {
+   "line": 8,
+   "box": [
+    193,
+    2386,
+    2986,
+    2612
+   ],
+   "raw": "𑈼𑈬𑈺𑈩𑈙𑈊𑈯𑈦𑈺𑈩𑈈𑈬𑈟𑈬𑈺𑈩𑈬𑈚𑈦𑈰𑈺𑈹𑈓𑈹𑈺",
+   "text": "𑈼𑈬𑈺𑈩𑈙𑈊𑈯𑈦𑈺𑈩𑈈𑈬𑈟𑈬𑈺𑈩𑈬𑈚𑈦𑈰𑈺𑈹𑈓𑈹𑈺",
+   "repairs": {},
+   "errors": [
+    "pos 1: orphan mark U+1122C KHOJKI VOWEL SIGN AA after U+1123C KHOJKI DOUBLE SECTION MARK"
+   ],
+   "confidence": 0.9341,
+   "render_score": 0.7892,
+   "seconds": 0.423
+  },
+  {
+   "line": 9,
+   "box": [
+    193,
+    2638,
+    2984,
+    2875
+   ],
+   "raw": "𑈈𑈰𑈤𑈰𑈈𑈺𑈐𑈯𑈎𑈺𑈤𑈰𑈬𑈺𑈩𑈙𑈬𑈦𑈬𑈺𑈦𑈪𑈁𑈺",
+   "text": "𑈈𑈰𑈤𑈰𑈈𑈺𑈐𑈯𑈎𑈺𑈤𑈰𑈬𑈺𑈩𑈙𑈬𑈦𑈬𑈺𑈦𑈪𑈁𑈺",
+   "repairs": {},
+   "errors": [
+    "pos 10: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.9744,
+   "render_score": 0.7287,
+   "seconds": 0.454
+  },
+  {
+   "line": 10,
+   "box": [
+    193,
+    2900,
+    2981,
+    3115
+   ],
+   "raw": "𑈃𑈟𑈈𑈬𑈺𑈡𑈰𑈛𑈺𑈢𑈭𑈴𑈑𑈰𑈴𑈺𑈞𑈺𑈧𑈪𑈰𑈁𑈺",
+   "text": "𑈃𑈟𑈈𑈬𑈺𑈡𑈰𑈛𑈺𑈢𑈭𑈴𑈑𑈰𑈴𑈺𑈞𑈺𑈧𑈪𑈰𑈁𑈺",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9221,
+   "render_score": 0.8091,
+   "seconds": 0.388
+  },
+  {
+   "line": 11,
+   "box": [
+    193,
+    3160,
+    2978,
+    3374
+   ],
+   "raw": "𑈁𑈟𑈲𑈬𑈺𑈁𑈟𑈬𑈉𑈭𑈦𑈐𑈴𑈘𑈪𑈬𑈦𑈬𑈺𑈺𑈺૩",
+   "text": "𑈁𑈟𑈲𑈬𑈺𑈁𑈟𑈬𑈉𑈭𑈦𑈐𑈴𑈘𑈪𑈬𑈦𑈬𑈺૩",
+   "repairs": {
+    "repeated_separator": 1
+   },
+   "errors": [
+    "pos 1: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.8732,
+   "render_score": 0.8152,
+   "seconds": 0.371
+  },
+  {
+   "line": 12,
+   "box": [
+    193,
+    3408,
+    2974,
+    3630
+   ],
+   "raw": "𑈟𑈴𑈎𑈰𑈺𑈙𑈞𑈺𑈩𑈶𑈬𑈪𑈬𑈝𑈬𑈺𑈩𑈭𑈴𑈘𑈊𑈬𑈟𑈬𑈺𑈠𑈭",
+   "text": "𑈟𑈴𑈎𑈰𑈺𑈙𑈞𑈺𑈩𑈶𑈬𑈪𑈬𑈝𑈬𑈺𑈩𑈭𑈴𑈘𑈊𑈬𑈟𑈬𑈺𑈠𑈭",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9002,
+   "render_score": 0.7973,
+   "seconds": 0.412
+  },
+  {
+   "line": 13,
+   "box": [
+    193,
+    3663,
+    2971,
+    3889
+   ],
+   "raw": "𑈩𑈭𑈴𑈙𑈰𑈦𑈺𑈩𑈪𑈩𑈺𑈡𑈦𑈩𑈺𑈐𑈬𑈺𑈪𑈬𑉀𑈺",
+   "text": "𑈩𑈭𑈴𑈙𑈰𑈦𑈺𑈩𑈪𑈩𑈺𑈡𑈦𑈩𑈺𑈐𑈬𑈺𑈪𑈬𑉀𑈺",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.952,
+   "render_score": 0.7813,
+   "seconds": 0.413
+  },
+  {
+   "line": 14,
+   "box": [
+    193,
+    3920,
+    2968,
+    4142
+   ],
+   "raw": "𑈃𑈟𑈩𑈰𑈺𑈩𑈈𑈬𑈦𑈬𑈺𑈀𑈰𑈬𑈎𑈦𑈺𑈩𑈰𑈬𑉀𑈺",
+   "text": "𑈃𑈟𑈩𑈰𑈺𑈩𑈈𑈬𑈦𑈬𑈺𑈀𑈰𑈬𑈎𑈦𑈺𑈩𑈰𑈬𑉀𑈺",
+   "repairs": {},
+   "errors": [
+    "pos 11: 2 vowel signs on one letter",
+    "pos 17: 2 vowel signs on one letter"
+   ],
+   "confidence": 0.9605,
+   "render_score": 0.8059,
+   "seconds": 0.405
+  },
+  {
+   "line": 15,
+   "box": [
+    193,
+    4183,
+    2964,
+    4392
+   ],
+   "raw": "𑈤𑈡𑈙𑈰𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈈𑈦𑈙𑈬𑈺𑈡𑈬𑈤𑈬𑈺𑈩𑈯",
+   "text": "𑈤𑈡𑈙𑈰𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈈𑈦𑈙𑈬𑈺𑈡𑈬𑈤𑈬𑈺𑈩𑈯",
+   "repairs": {},
+   "errors": [],
+   "confidence": 0.9318,
+   "render_score": 0.7636,
+   "seconds": 0.36
+  },
+  {
+   "line": 16,
+   "box": [
+    193,
+    4440,
+    2961,
+    4652
+   ],
+   "raw": "𑈃𑈩𑈈𑈬𑈺𑈡𑈪𑈮𑈧𑈭𑈴𑈐𑈭𑈡𑈦𑈬𑉀𑈺𑈞𑈬𑈤𑈬𑈺𑈺",
+   "text": "𑈃𑈩𑈈𑈬𑈺𑈡𑈪𑈮𑈧𑈭𑈴𑈐𑈭𑈡𑈦𑈬𑉀𑈺𑈞𑈬𑈤𑈬𑈺",
+   "repairs": {
+    "repeated_separator": 1
+   },
+   "errors": [],
+   "confidence": 0.9103,
+   "render_score": 0.7367,
+   "seconds": 0.362
+  }
+ ]
+}

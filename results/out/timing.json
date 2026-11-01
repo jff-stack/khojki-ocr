@@ -1,0 +1,19 @@
+{
+ "model": "models/khojki_best.mlmodel",
+ "device": "cpu",
+ "model_load_seconds": 30.53,
+ "pages": {
+  "page_18": {
+   "seconds": 7.964,
+   "lines": 16
+  },
+  "page_01": {
+   "seconds": 8.45,
+   "lines": 11
+  },
+  "page_09": {
+   "seconds": 12.516,
+   "lines": 12
+  }
+ }
+}
