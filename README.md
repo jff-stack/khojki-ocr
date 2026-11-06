@@ -218,6 +218,8 @@ results/       every number in this README, plus overlays and samples
 models/        khojki_best.mlmodel (damaged data), khojki_clean.mlmodel (clean data)
 ```
 
+docs/architecture.html: interactive architecture explainer, added after submission (not part of the v1.0 submission).
+
 ## Data notice
 
 The source PDF and full page scans are not included. They are not ours to redistribute. The repo holds only the 5 test-line crops and quarter-scale overlays, which are needed to review the results. Noto Sans Khojki is under the SIL Open Font License 1.1. The Gujarati text in the synthetic corpus comes from Narsinh Mehta poems on Gujarati Wikisource, transliterated with aksharamukha. The corpus has <!-- VAL:corpus_lines -->2071<!-- /VAL:corpus_lines --> lines and covers <!-- VAL:corpus_cov -->100.0%<!-- /VAL:corpus_cov --> of the code points the font can draw. See `NOTICE.md` for details. The code is MIT-licensed.

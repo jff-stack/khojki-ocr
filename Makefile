@@ -7,7 +7,7 @@ SYNTH_N ?= 10000
 CLEAN_N ?= 4000
 DEVICE ?= cuda:0
 
-.PHONY: setup pages synth train train-clean run eval report test all clean-results
+.PHONY: setup pages synth train train-clean run eval report arch-page test all clean-results
 
 setup:
 	python3 -m venv $(VENV)
@@ -45,7 +45,10 @@ eval:
 report:
 	$(PY) tools/make_tables.py
 
+arch-page:
+	$(PY) tools/make_arch_page.py
+
 test:
 	$(PY) -m pytest -q
 
-all: run eval report test
+all: run eval report arch-page test

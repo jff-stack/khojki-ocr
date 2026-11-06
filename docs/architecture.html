@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khojki OCR Architecture</title>
+<meta name="description" content="Interactive map of the khojki-ocr training, run and evaluation stages, with the numbers from results/.">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f5f2;
+  --surface: #fcfcfb;
+  --surface-2: #efeee9;
+  --line: #d9d7cf;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --muted: #6f6e69;
+  --accent: #2a78d6;
+  --accent-soft: #e3eefb;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --grid: #e6e4dd;
+  --artifact: #f1efe7;
+  --shadow: 0 8px 28px rgba(0, 0, 0, .12);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121211;
+    --surface: #1a1a19;
+    --surface-2: #232321;
+    --line: #3a3936;
+    --text: #f0efec;
+    --text-2: #c3c2b7;
+    --muted: #9b9a92;
+    --accent: #3987e5;
+    --accent-soft: #1d2b3d;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --grid: #2c2c2a;
+    --artifact: #20201e;
+    --shadow: 0 8px 28px rgba(0, 0, 0, .5);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211;
+  --surface: #1a1a19;
+  --surface-2: #232321;
+  --line: #3a3936;
+  --text: #f0efec;
+  --text-2: #c3c2b7;
+  --muted: #9b9a92;
+  --accent: #3987e5;
+  --accent-soft: #1d2b3d;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --grid: #2c2c2a;
+  --artifact: #20201e;
+  --shadow: 0 8px 28px rgba(0, 0, 0, .5);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .88em; }
+.kh { font-family: "Noto Sans Khojki", "Khojki", system-ui, sans-serif; font-size: 1.15em; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 32px 16px 64px; }
+header h1 { font-size: 1.6rem; margin: 0 0 6px; letter-spacing: -.01em; }
+header p { margin: 0 0 6px; color: var(--text-2); max-width: 70ch; }
+header .note { font-size: .85rem; color: var(--muted); }
+h2 { font-size: 1rem; margin: 0; }
+.lane {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 20px;
+}
+.lane-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.lane-head p { margin: 0; color: var(--muted); font-size: .85rem; }
+.flow { position: relative; display: flex; align-items: stretch; gap: 0; }
+.node {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.node:hover { border-color: var(--accent); }
+.node:focus-visible, .chip:focus-visible, button:focus-visible, .hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.node[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.node.artifact { background: var(--artifact); border-style: dashed; }
+.node.artifact[aria-expanded="true"] { background: var(--accent-soft); }
+.node.active { box-shadow: 0 0 0 2px var(--accent); }
+.node .kind { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.node .name { font-weight: 600; overflow-wrap: anywhere; }
+.node .sub { font-size: .8rem; color: var(--text-2); }
+.arrow { flex: 0 0 22px; display: flex; align-items: center; justify-content: center; color: var(--muted); }
+.arrow::before { content: "→"; }
+.dot {
+  position: absolute;
+  left: 0; top: 0;
+  width: 14px; height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--surface);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .7s ease-in-out, opacity .2s;
+}
+.flow.playing .dot { opacity: 1; }
+.flow-caption {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: .9rem;
+  min-height: 3.2em;
+  overflow-wrap: anywhere;
+}
+.flow-caption strong { color: var(--text); }
+.toggle {
+  font: inherit;
+  font-size: .85rem;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.toggle[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.eval-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 12px; }
+.chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.chip {
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); }
+.chip b { display: block; }
+.chip span { font-size: .8rem; color: var(--text-2); }
+.formula { grid-column: 1 / -1; font-size: .85rem; color: var(--text-2); margin: 4px 0 0; }
+.results { margin-top: 20px; }
+.results h2 { margin-bottom: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.tile .label { font-size: .8rem; color: var(--text-2); }
+.tile .big { font-size: 1.7rem; font-weight: 650; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.tile .small { font-size: .8rem; color: var(--muted); }
+.cards { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 12px; margin-top: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
+.card h3 { font-size: .95rem; margin: 0 0 4px; }
+.card p { margin: 0 0 10px; font-size: .85rem; color: var(--text-2); }
+.stage-row { display: grid; grid-template-columns: 8.5em minmax(0, 1fr) auto; align-items: center; gap: 10px; margin: 8px 0; font-size: .88rem; }
+.stage-name::first-letter { text-transform: uppercase; }
+.stage-name { display: inline-block; }
+.meter { height: 10px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: var(--series-1); border-radius: 999px; }
+.stage-val { color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gap { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.legend { display: flex; gap: 16px; font-size: .82rem; color: var(--text-2); margin-bottom: 6px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.bars { width: 100%; height: auto; display: block; }
+.bars .grid { stroke: var(--grid); stroke-width: 1; }
+.bars .base { stroke: var(--muted); stroke-width: 1; }
+.bars .tick, .bars .xlabel { fill: var(--text-2); font-size: 11px; font-family: inherit; }
+.bars .s-a { fill: var(--series-1); }
+.bars .s-b { fill: var(--series-2); }
+.bars .hit { fill: transparent; cursor: default; }
+.bars .hit:hover, .bars .hit:focus { fill: rgba(127, 127, 127, .12); }
+details { margin-top: 10px; font-size: .85rem; }
+summary { cursor: pointer; color: var(--text-2); }
+table { border-collapse: collapse; width: 100%; margin-top: 8px; font-size: .85rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--text-2); font-weight: 600; }
+.table-scroll { overflow-x: auto; }
+#tip {
+  position: fixed;
+  z-index: 30;
+  pointer-events: none;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: .8rem;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+#panel {
+  position: fixed;
+  z-index: 20;
+  top: 0; right: 0; bottom: 0;
+  width: min(440px, 100%);
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  overflow-y: auto;
+  padding: 20px 20px 40px;
+  transform: translateX(105%);
+  transition: transform .22s ease-out;
+  visibility: hidden;
+}
+#panel.open { transform: none; visibility: visible; }
+#panel .panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+#panel h2 { font-size: 1.15rem; }
+#panel .path { margin: 2px 0 10px; color: var(--text-2); }
+#panel h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 4px; }
+#panel p { margin: 0; }
+#panel ul { margin: 0; padding-left: 1.1em; }
+#panel li { margin: 2px 0; }
+.close { font: inherit; font-size: 1.3rem; line-height: 1; background: none; border: 0; color: var(--text-2); cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+.close:hover { background: var(--surface-2); }
+dl.nums { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; font-size: .9rem; }
+dl.nums dt { color: var(--text-2); }
+dl.nums dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; overflow-wrap: anywhere; }
+footer { margin-top: 28px; font-size: .8rem; color: var(--muted); }
+@media (max-width: 860px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards, .eval-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .flow { flex-direction: column; }
+  .arrow { flex-basis: 20px; }
+  .arrow::before { content: "↓"; }
+  .chips { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot, #panel, .node { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>khojki-ocr architecture</h1>
+  <p>How a scanned Khojki page becomes checked Unicode text, how the model behind it was trained, and how the result was measured. Click any box for what it does, why it works that way and where it falls short.</p>
+  <p class="note">Added after the take-home submission, not part of the v1.0 submission. Every number on this page is written by <code>tools/make_arch_page.py</code> from files in <code>results/</code>. No scans or line images are included.</p>
+</header>
+
+<main>
+<section class="lane" aria-labelledby="h-train">
+  <div class="lane-head"><h2 id="h-train">Training</h2><p>Text, then images, then a model</p></div>
+  <div class="flow">
+    <button class="node" data-panel="corpus" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">corpus.py</span><span class="sub">training text</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="render" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">render.py</span><span class="sub">fake scan lines</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="train" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">train.sh</span><span class="sub">ketos train</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node artifact" data-panel="model" aria-controls="panel" aria-expanded="false"><span class="kind">output</span><span class="name">khojki_best.mlmodel</span><span class="sub">used by the run side</span></button>
+  </div>
+</section>
+
+<section class="lane" aria-labelledby="h-run">
+  <div class="lane-head">
+    <h2 id="h-run">Run</h2>
+    <button class="toggle" id="flow-toggle" aria-pressed="false" aria-controls="flow-caption">Data flow</button>
+  </div>
+  <div class="flow" id="run-flow">
+    <button class="node artifact" data-panel="page" data-step="0" aria-controls="panel" aria-expanded="false"><span class="kind">input</span><span class="name">page PNG</span><span class="sub">grayscale scan</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="segment" data-step="1" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">segment.py</span><span class="sub">line boxes</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="recognize" data-step="2" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">recognize.py</span><span class="sub">raw text</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="normalize" data-step="3" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">normalize.py</span><span class="sub">clean text</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="validate" data-step="4" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">validate.py</span><span class="sub">error list</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node" data-panel="score" data-step="5" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">score.py</span><span class="sub">render score</span></button>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="node artifact" data-panel="out" data-step="6" aria-controls="panel" aria-expanded="false"><span class="kind">output</span><span class="name">results/out/</span><span class="sub">txt, json, overlay</span></button>
+    <span class="dot" aria-hidden="true"></span>
+  </div>
+  <p class="flow-caption" id="flow-caption" aria-live="polite">Turn on Data flow to follow test line <!-- VAL:flow_line -->p18_l02<!-- /VAL:flow_line --> through the run side and see what each stage hands to the next.</p>
+  <ol id="flow-steps" hidden>
+    <li><strong>page PNG → segment.py:</strong> the page image, one grayscale array.</li>
+    <li><strong>segment.py → recognize.py:</strong> line boxes in page pixels, <!-- VAL:lines_page -->16<!-- /VAL:lines_page --> of them on <!-- VAL:flow_page -->page_18<!-- /VAL:flow_page -->. Each box is cropped from the page.</li>
+    <li><strong>recognize.py → normalize.py:</strong> raw text for one crop: <!-- VAL:flow_raw --><span class="kh">𑈃𑈟𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈙𑈮𑈺૪</span> <code>U+11203 U+1121F U+1122C U+11234 U+1123A U+11220 …</code><!-- /VAL:flow_raw --></li>
+    <li><strong>normalize.py → validate.py:</strong> normalized text plus a repair count (<!-- VAL:flow_repairs -->0<!-- /VAL:flow_repairs --> repairs here): <!-- VAL:flow_norm --><span class="kh">𑈃𑈟𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈙𑈮𑈺૪</span> <code>U+11203 U+1121F U+1122C U+11234 U+1123A U+11220 …</code><!-- /VAL:flow_norm --></li>
+    <li><strong>validate.py → score.py:</strong> the error list for the line: <!-- VAL:flow_errors -->an empty list (no rule broken)<!-- /VAL:flow_errors -->.</li>
+    <li><strong>score.py → results/out/:</strong> a render score for the line: <!-- VAL:flow_score -->0.769<!-- /VAL:flow_score -->.</li>
+    <li><strong>results/out/:</strong> one JSON record per line, written with the page's txt file and overlay: <!-- VAL:flow_json --><code>{&quot;text&quot;: &quot;𑈃𑈟𑈬𑈴𑈺𑈠𑈭𑈦𑈩𑈙𑈬𑈺𑈙𑈡𑈺𑈡𑈬𑈙𑈬𑈴𑈺𑈡𑈮𑈙𑈮𑈺૪&quot;, &quot;repairs&quot;: {}, &quot;errors&quot;: [], &quot;render_score&quot;: 0.769}</code><!-- /VAL:flow_json --></li>
+  </ol>
+</section>
+
+<section class="lane" aria-labelledby="h-eval">
+  <div class="lane-head"><h2 id="h-eval">Evaluation</h2><p>Three runs, one subtraction per stage</p></div>
+  <div class="eval-grid">
+    <button class="node" data-panel="evaluate" aria-controls="panel" aria-expanded="false"><span class="kind">stage</span><span class="name">evaluate.py</span><span class="sub">CER, stage split, confusions</span></button>
+    <div class="chips">
+      <button class="chip" data-panel="evaluate" aria-controls="panel"><b>Run A</b><span>pipeline's own boxes, normalized · <!-- VAL:cer_a -->18.5%<!-- /VAL:cer_a --></span></button>
+      <button class="chip" data-panel="evaluate" aria-controls="panel"><b>Run B</b><span>hand-cropped boxes, normalized · <!-- VAL:cer_b -->21.8%<!-- /VAL:cer_b --></span></button>
+      <button class="chip" data-panel="evaluate" aria-controls="panel"><b>Run C</b><span>hand-cropped boxes, raw output · <!-- VAL:cer_c -->21.8%<!-- /VAL:cer_c --></span></button>
+      <p class="formula">line detection = A − B · mapping = (C − B) + same-glyph edits · recognition = B − same-glyph edits</p>
+    </div>
+  </div>
+</section>
+
+<section class="results" aria-labelledby="h-results">
+  <h2 id="h-results">Results</h2>
+  <div class="tiles">
+    <div class="tile"><div class="label">Run A CER (auto boxes)</div><div class="big"><!-- VAL:cer_a -->18.5%<!-- /VAL:cer_a --></div><div class="small"><!-- VAL:cer_a_frac -->22/119<!-- /VAL:cer_a_frac --> code points</div></div>
+    <div class="tile"><div class="label">Run B CER (hand boxes)</div><div class="big"><!-- VAL:cer_b -->21.8%<!-- /VAL:cer_b --></div><div class="small"><!-- VAL:cer_b_frac -->26/119<!-- /VAL:cer_b_frac --> code points</div></div>
+    <div class="tile"><div class="label">Run C CER (raw output)</div><div class="big"><!-- VAL:cer_c -->21.8%<!-- /VAL:cer_c --></div><div class="small"><!-- VAL:cer_c_frac -->26/119<!-- /VAL:cer_c_frac --> code points</div></div>
+    <div class="tile"><div class="label">Synthetic validation CER</div><div class="big"><!-- VAL:val_cer_damaged -->0.3%<!-- /VAL:val_cer_damaged --></div><div class="small">held-out rendered lines, damaged model</div></div>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <h3>Where the errors come from (run B)</h3>
+      <p>Negative edits count as zero share.</p>
+<!-- TABLE:stages -->
+<div class="stage-row"><span class="stage-name">line detection</span><span class="meter"><span style="width:0%"></span></span><span class="stage-val">-4 edits · 0%</span></div>
+<div class="stage-row"><span class="stage-name">mapping</span><span class="meter"><span style="width:0%"></span></span><span class="stage-val">0 edits · 0%</span></div>
+<div class="stage-row"><span class="stage-name">recognition</span><span class="meter"><span style="width:100%"></span></span><span class="stage-val">26 edits · 100%</span></div>
+<!-- /TABLE:stages -->
+      <div class="gap">
+        <span>Synthetic to real gap: <strong><!-- VAL:gap_points -->21.5<!-- /VAL:gap_points --> points</strong></span>
+        <span class="small" style="color:var(--muted);font-size:.8rem">real CER is about <!-- VAL:gap_ratio -->70<!-- /VAL:gap_ratio -->× the synthetic CER</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>CER per test line, damaged model</h3>
+      <div class="legend"><span><i style="background:var(--series-1)"></i>Run A, auto boxes</span><span><i style="background:var(--series-2)"></i>Run B, hand boxes</span></div>
+<!-- TABLE:linebars -->
+<svg class="bars" viewBox="0 0 640 240" role="img" aria-label="Per-line CER for runs A and B, damaged model">
+<line class="base" x1="48" x2="628" y1="206.0" y2="206.0"/>
+<text class="tick" x="42" y="210.0" text-anchor="end">0%</text>
+<line class="grid" x1="48" x2="628" y1="158.0" y2="158.0"/>
+<text class="tick" x="42" y="162.0" text-anchor="end">10%</text>
+<line class="grid" x1="48" x2="628" y1="110.0" y2="110.0"/>
+<text class="tick" x="42" y="114.0" text-anchor="end">20%</text>
+<line class="grid" x1="48" x2="628" y1="62.0" y2="62.0"/>
+<text class="tick" x="42" y="66.0" text-anchor="end">30%</text>
+<line class="grid" x1="48" x2="628" y1="14.0" y2="14.0"/>
+<text class="tick" x="42" y="18.0" text-anchor="end">40%</text>
+<path class="s-a" d="M77.0,206.0V158.6Q77.0,154.6 81.0,154.6H101.0Q105.0,154.6 105.0,158.6V206.0Z"/>
+<rect class="hit" x="76.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l02 · run A · 10.7% (3/28)" aria-label="p18_l02 · run A · 10.7% (3/28)"/>
+<path class="s-b" d="M107.0,206.0V124.3Q107.0,120.3 111.0,120.3H131.0Q135.0,120.3 135.0,124.3V206.0Z"/>
+<rect class="hit" x="106.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l02 · run B · 17.9% (5/28)" aria-label="p18_l02 · run B · 17.9% (5/28)"/>
+<text class="xlabel" x="106.0" y="228" text-anchor="middle">p18_l02</text>
+<path class="s-a" d="M193.0,206.0V126.5Q193.0,122.5 197.0,122.5H217.0Q221.0,122.5 221.0,126.5V206.0Z"/>
+<rect class="hit" x="192.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l03 · run A · 17.4% (4/23)" aria-label="p18_l03 · run A · 17.4% (4/23)"/>
+<path class="s-b" d="M223.0,206.0V126.5Q223.0,122.5 227.0,122.5H247.0Q251.0,122.5 251.0,126.5V206.0Z"/>
+<rect class="hit" x="222.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l03 · run B · 17.4% (4/23)" aria-label="p18_l03 · run B · 17.4% (4/23)"/>
+<text class="xlabel" x="222.0" y="228" text-anchor="middle">p18_l03</text>
+<path class="s-a" d="M309.0,206.0V126.5Q309.0,122.5 313.0,122.5H333.0Q337.0,122.5 337.0,126.5V206.0Z"/>
+<rect class="hit" x="308.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l04 · run A · 17.4% (4/23)" aria-label="p18_l04 · run A · 17.4% (4/23)"/>
+<path class="s-b" d="M339.0,206.0V126.5Q339.0,122.5 343.0,122.5H363.0Q367.0,122.5 367.0,126.5V206.0Z"/>
+<rect class="hit" x="338.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l04 · run B · 17.4% (4/23)" aria-label="p18_l04 · run B · 17.4% (4/23)"/>
+<text class="xlabel" x="338.0" y="228" text-anchor="middle">p18_l04</text>
+<path class="s-a" d="M425.0,206.0V110.7Q425.0,106.7 429.0,106.7H449.0Q453.0,106.7 453.0,110.7V206.0Z"/>
+<rect class="hit" x="424.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l05 · run A · 20.7% (6/29)" aria-label="p18_l05 · run A · 20.7% (6/29)"/>
+<path class="s-b" d="M455.0,206.0V77.6Q455.0,73.6 459.0,73.6H479.0Q483.0,73.6 483.0,77.6V206.0Z"/>
+<rect class="hit" x="454.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l05 · run B · 27.6% (8/29)" aria-label="p18_l05 · run B · 27.6% (8/29)"/>
+<text class="xlabel" x="454.0" y="228" text-anchor="middle">p18_l05</text>
+<path class="s-a" d="M541.0,206.0V60.0Q541.0,56.0 545.0,56.0H565.0Q569.0,56.0 569.0,60.0V206.0Z"/>
+<rect class="hit" x="540.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l06 · run A · 31.2% (5/16)" aria-label="p18_l06 · run A · 31.2% (5/16)"/>
+<path class="s-b" d="M571.0,206.0V60.0Q571.0,56.0 575.0,56.0H595.0Q599.0,56.0 599.0,60.0V206.0Z"/>
+<rect class="hit" x="570.0" y="14" width="30.0" height="192" tabindex="0" data-tip="p18_l06 · run B · 31.2% (5/16)" aria-label="p18_l06 · run B · 31.2% (5/16)"/>
+<text class="xlabel" x="570.0" y="228" text-anchor="middle">p18_l06</text>
+</svg>
+<!-- /TABLE:linebars -->
+      <details>
+        <summary>Show as a table</summary>
+        <div class="table-scroll">
+<!-- TABLE:linetable -->
+<table><thead><tr><th>Line</th><th>Run A</th><th>Run B</th><th>Run C</th></tr></thead><tbody>
+<tr><td>p18_l02</td><td>10.7% (3/28)</td><td>17.9% (5/28)</td><td>17.9% (5/28)</td></tr>
+<tr><td>p18_l03</td><td>17.4% (4/23)</td><td>17.4% (4/23)</td><td>17.4% (4/23)</td></tr>
+<tr><td>p18_l04</td><td>17.4% (4/23)</td><td>17.4% (4/23)</td><td>17.4% (4/23)</td></tr>
+<tr><td>p18_l05</td><td>20.7% (6/29)</td><td>27.6% (8/29)</td><td>27.6% (8/29)</td></tr>
+<tr><td>p18_l06</td><td>31.2% (5/16)</td><td>31.2% (5/16)</td><td>31.2% (5/16)</td></tr>
+</tbody></table>
+<!-- /TABLE:linetable -->
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>Source: <code>results/summary.json</code>, <code>cer.csv</code>, <code>stages.csv</code>, <code>train_summary.json</code>, <code>out/</code>, <code>corpus_stats.json</code>, <code>experiments.csv</code>. Khojki text needs the Noto Sans Khojki font installed to display; code points are shown next to it.</footer>
+</div>
+
+<aside id="panel" aria-labelledby="panel-title" tabindex="-1">
+  <div class="panel-head">
+    <h2 id="panel-title">Stage details</h2>
+    <button class="close" id="panel-close" aria-label="Close panel">×</button>
+  </div>
+  <p class="path"><code id="panel-path"></code></p>
+  <div id="panel-body"></div>
+</aside>
+<div id="tip" hidden></div>
+
+<template id="t-corpus" data-title="corpus.py" data-path="khojki/corpus.py">
+  <h3>What it does</h3>
+  <p>Builds the training text. It transliterates Narsinh Mehta poems from Gujarati Wikisource into Khojki with aksharamukha, adds generated syllables so every consonant and vowel sign pair appears, and adds lines with separators, dandas, section marks and page numbers.</p>
+  <h3>Key decision</h3>
+  <p>Every line passes through normalize and validate before it is kept, lines that would draw a dotted circle are dropped, and any line containing a test line stops the build. A bad training line teaches the model a wrong glyph, and nothing later would catch it.</p>
+  <h3>Rejected alternative</h3>
+  <p>Letting shadda or virama follow a vowel sign. HarfBuzz draws a dotted circle there with this font, so the model would have learned a broken shape (logged in <code>AI_ERRORS.md</code>).</p>
+  <h3>Known limit</h3>
+  <p>The text is transliterated poetry and random syllables, not the language of the printed books. The vocalic R vowel sign is left out because the font has no glyph for it.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Corpus lines</dt><dd><!-- VAL:corpus_lines -->2071<!-- /VAL:corpus_lines --></dd>
+    <dt>Coverage of code points the font can draw</dt><dd><!-- VAL:corpus_cov -->100.0%<!-- /VAL:corpus_cov --></dd>
+  </dl>
+</template>
+
+<template id="t-render" data-title="render.py" data-path="khojki/render.py">
+  <h3>What it does</h3>
+  <p>Draws each corpus line in Noto Sans Khojki, then makes it look like a scan: slight rotation, ink spread or thinning, blur, paper texture cut from blank areas of the real scans, contrast change, speckle noise and JPEG compression. Each image is saved next to its text, which is the format ketos reads.</p>
+  <h3>Key decision</h3>
+  <p>Use real paper patches from the scans instead of flat white. The model then sees the same background at training time as on real pages.</p>
+  <h3>Rejected alternative</h3>
+  <p>Rendering without raqm. Plain Pillow layout puts Khojki marks in the wrong place, so <code>render.py</code> and <code>make setup</code> refuse to run without it.</p>
+  <h3>Known limit</h3>
+  <ul>
+    <li>Every damaged line has paper texture, so the damaged model learned the background as well as the glyphs: it fails on clean white renders.</li>
+    <li>Noto Sans Khojki is a modern design; its letter shapes differ from metal type. Font-rendered lines will not transfer to handwriting.</li>
+  </ul>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Damaged images</dt><dd><!-- VAL:synth_damaged_n -->10000<!-- /VAL:synth_damaged_n --></dd>
+    <dt>Clean images</dt><dd><!-- VAL:synth_clean_n -->4000<!-- /VAL:synth_clean_n --></dd>
+    <dt>Damaged model on damaged lines (char accuracy)</dt><dd><!-- VAL:gate_on_damaged -->99.82%<!-- /VAL:gate_on_damaged --></dd>
+    <dt>Damaged model on clean lines (char accuracy)</dt><dd><!-- VAL:gate_on_clean -->-28.54%<!-- /VAL:gate_on_clean --></dd>
+  </dl>
+</template>
+
+<template id="t-train" data-title="train.sh" data-path="tools/train.sh">
+  <h3>What it does</h3>
+  <p>Trains a kraken model from scratch with <code>ketos train</code> on the rendered lines. Part of the synthetic set is held out for validation. Training stops when validation stops improving, or at a hard time cap.</p>
+  <h3>Key decision</h3>
+  <p>Train from scratch on synthetic lines only, with early stopping and a time cap. There were no labelled real lines to train on, and the cap kept each run inside the time box.</p>
+  <h3>Rejected alternative</h3>
+  <p>Training on clean renders only. It ran as a second model, barely trained within its cap and gets nearly everything wrong on real lines.</p>
+  <h3>Known limit</h3>
+  <ul>
+    <li>The clean model trained too little to show how much the damage helped.</li>
+    <li>The bottleneck is real labelled lines. The kraken training docs suggest far more real lines for a new model than this project had. Next step: transcribe lines of this print and fine-tune on them.</li>
+  </ul>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Damaged: synthetic val CER</dt><dd><!-- VAL:val_cer_damaged -->0.3%<!-- /VAL:val_cer_damaged --></dd>
+    <dt>Damaged: epochs (best)</dt><dd><!-- VAL:epochs_damaged -->23<!-- /VAL:epochs_damaged --> (<!-- VAL:best_epoch_damaged -->17<!-- /VAL:best_epoch_damaged -->)</dd>
+    <dt>Damaged: minutes</dt><dd><!-- VAL:train_min_damaged -->31<!-- /VAL:train_min_damaged --></dd>
+    <dt>Clean: synthetic val CER</dt><dd><!-- VAL:val_cer_clean -->29.2%<!-- /VAL:val_cer_clean --></dd>
+    <dt>Clean: epochs</dt><dd><!-- VAL:epochs_clean -->2<!-- /VAL:epochs_clean --></dd>
+    <dt>Clean: minutes</dt><dd><!-- VAL:train_min_clean -->20<!-- /VAL:train_min_clean --></dd>
+    <dt>Clean model on real lines (run B)</dt><dd><!-- VAL:cer_clean_b -->99.2% (118/119)<!-- /VAL:cer_clean_b --></dd>
+  </dl>
+</template>
+
+<template id="t-model" data-title="khojki_best.mlmodel" data-path="models/khojki_best.mlmodel">
+  <h3>What it does</h3>
+  <p>The checkpoint with the best synthetic validation accuracy from the damaged-data run, converted to kraken's CoreML format. <code>pipeline.py</code> and <code>evaluate.py</code> load it.</p>
+  <h3>Key decision</h3>
+  <p>The damaged-data model is the default. The clean-data model is kept only for comparison.</p>
+  <h3>Rejected alternative</h3>
+  <p><code>models/khojki_clean.mlmodel</code>, trained on clean renders. It did not converge.</p>
+  <h3>Known limit</h3>
+  <p>It has only seen Noto Sans Khojki. Error on held-out synthetic lines is small next to error on real lines; that gap is the difference between the font and the metal type of the book.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Synthetic val CER</dt><dd><!-- VAL:val_cer_damaged -->0.3%<!-- /VAL:val_cer_damaged --></dd>
+    <dt>Real CER (run B)</dt><dd><!-- VAL:cer_b -->21.8%<!-- /VAL:cer_b --></dd>
+    <dt>Gap (points)</dt><dd><!-- VAL:gap_points -->21.5<!-- /VAL:gap_points --></dd>
+  </dl>
+</template>
+
+<template id="t-page" data-title="page PNG" data-path="tools/pdf_to_pages.py → data/pages/">
+  <h3>What it does</h3>
+  <p>The input. <code>tools/pdf_to_pages.py</code> renders each page of the sample PDF to a grayscale PNG, plus the test page at a higher resolution for checking the hand crops.</p>
+  <h3>Key decision</h3>
+  <p>Render with pypdfium2. There was no sudo in WSL, so poppler could not be installed.</p>
+  <h3>Rejected alternative</h3>
+  <p>poppler's <code>pdftoppm</code>.</p>
+  <h3>Known limit</h3>
+  <p>The scans are not in the repo; they were provided for this exercise only. You need the sample PDF to run <code>make pages</code>.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Pages run through the pipeline</dt><dd><!-- VAL:n_pages_run -->3<!-- /VAL:n_pages_run --></dd>
+  </dl>
+</template>
+
+<template id="t-segment" data-title="segment.py" data-path="khojki/segment.py">
+  <h3>What it does</h3>
+  <p>Binarizes the page with Sauvola thresholding, finds the printed frame, and picks the skew angle whose row profile is sharpest. It then cuts the row ink profile at its valleys; each band becomes a padded line box in page pixels.</p>
+  <h3>Key decision</h3>
+  <p>A projection profile inside the printed frame, with thresholds relative to page size. The test pages are framed and printed in straight lines, and this needs no training data.</p>
+  <h3>Rejected alternative</h3>
+  <p>A trained layout model. None existed for Khojki, and there was no labelled layout data to train one.</p>
+  <h3>Known limit</h3>
+  <ul>
+    <li>Tuned to framed pages. On the handwritten page, which has no frame, the boxes clip the start and end of most lines. On the lithograph, an ornament is detected as a text line.</li>
+    <li>Handwriting needs a trained layout model.</li>
+  </ul>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Lines found on <!-- VAL:flow_page -->page_18<!-- /VAL:flow_page --></dt><dd><!-- VAL:auto_lines -->16<!-- /VAL:auto_lines --></dd>
+    <dt>Manual count</dt><dd><!-- VAL:manual_lines -->16<!-- /VAL:manual_lines --></dd>
+    <dt>Test lines with a matching box</dt><dd><!-- VAL:matched -->5<!-- /VAL:matched --> of <!-- VAL:n_lines -->5<!-- /VAL:n_lines --></dd>
+    <dt>Box IoU with hand crops</dt><dd><!-- VAL:iou_min -->0.81<!-- /VAL:iou_min -->–<!-- VAL:iou_max -->0.94<!-- /VAL:iou_max --></dd>
+    <dt>Line detection edits (A − B)</dt><dd><!-- VAL:stage_line_detection -->-4<!-- /VAL:stage_line_detection --></dd>
+  </dl>
+</template>
+
+<template id="t-recognize" data-title="recognize.py" data-path="khojki/recognize.py">
+  <h3>What it does</h3>
+  <p>Wraps the kraken model. Each crop is passed in as one horizontal line, and it returns the text and the mean character confidence.</p>
+  <h3>Key decision</h3>
+  <p>Treat the whole crop as one line and load the model once per process. Segmentation has already done the layout, and loading the model is the slow part.</p>
+  <h3>Rejected alternative</h3>
+  <p>Transcribing with a vision language model. <code>tools/vlm_baseline.py</code> exists but was not run (no API key). A published benchmark reports that every tested system scores zero on Khojki; that was not verified here.</p>
+  <h3>Known limit</h3>
+  <p>All remaining error is here. The errors are extra or missing vowel signs, letter swaps and misread page digits, mostly on letters whose metal type shapes differ from the font.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Raw output CER (run C)</dt><dd><!-- VAL:cer_c -->21.8%<!-- /VAL:cer_c --></dd>
+    <dt>Recognition edits (share)</dt><dd><!-- VAL:stage_recognition -->26<!-- /VAL:stage_recognition --> (<!-- VAL:share_recognition -->100%<!-- /VAL:share_recognition -->)</dd>
+    <dt>CER without word separators</dt><dd><!-- VAL:cer_b_nosep -->23.5% (23/98)<!-- /VAL:cer_b_nosep --></dd>
+    <dt>CER on graphemes</dt><dd><!-- VAL:cer_b_graph -->31.7% (26/82)<!-- /VAL:cer_b_graph --></dd>
+    <dt>Model load seconds (<!-- VAL:device -->cpu<!-- /VAL:device -->)</dt><dd><!-- VAL:model_load_s -->30.5<!-- /VAL:model_load_s --></dd>
+  </dl>
+</template>
+
+<template id="t-normalize" data-title="normalize.py" data-path="khojki/normalize.py">
+  <h3>What it does</h3>
+  <p>Applies NFC, replaces decomposed vowel sequences with atomic vowels, maps ASCII and Devanagari digits to Gujarati, and maps colons and dandas to Khojki punctuation. It also cleans spaces around separators and puts marks in order: nukta, vowel sign, then the rest. Each repair is counted.</p>
+  <h3>Key decision</h3>
+  <p>Count every repair instead of fixing silently, so the difference between runs B and C shows exactly what normalization changed.</p>
+  <h3>Rejected alternative</h3>
+  <p>A space or an ASCII colon as the word separator, and encoding the wide gap before a page number. The script has its own word separator, and spacing is layout, not text.</p>
+  <h3>Known limit</h3>
+  <p>On the test lines it changed nothing: runs B and C are equal. Here it is a safety net, not a source of accuracy.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Repairs in run B</dt><dd><!-- VAL:repairs_b -->0<!-- /VAL:repairs_b --></dd>
+    <dt>Mapping edits (share)</dt><dd><!-- VAL:stage_mapping -->0<!-- /VAL:stage_mapping --> (<!-- VAL:share_mapping -->0%<!-- /VAL:share_mapping -->)</dd>
+    <dt>Same-glyph edits</dt><dd><!-- VAL:same_glyph -->0<!-- /VAL:same_glyph --></dd>
+  </dl>
+</template>
+
+<template id="t-validate" data-title="validate.py" data-path="khojki/validate.py">
+  <h3>What it does</h3>
+  <p>Checks text against the encoding rules: allowed code points, unsure-glyph placeholders, orphan marks, marks out of order, more than one vowel sign on a letter, decomposed vowels, and the section mark used as a word separator. It returns plain error messages per line; an empty list means the text is valid.</p>
+  <h3>Key decision</h3>
+  <p>Report, never fix. Fixes live in normalize, where they are counted. The same validator gates the ground truth, the training corpus and the pipeline output.</p>
+  <h3>Rejected alternative</h3>
+  <p>Encoding the hollow ring above the vowel bar as the abbreviation sign. The font draws that sign on the baseline after the letter; the ring sits where anusvara goes, so it is encoded as anusvara.</p>
+  <h3>Known limit</h3>
+  <p>Valid is not correct. The handwritten page and the lithograph ran end to end, but with no ground truth the validator is their only check, and there is no CER for them.</p>
+  <h3>Numbers</h3>
+  <div class="table-scroll">
+<!-- TABLE:pages -->
+<table><thead><tr><th>Page</th><th>Lines found</th><th>Seconds</th><th>Lines with validator errors</th><th>Error kinds</th></tr></thead><tbody>
+<tr><td>page_01</td><td>11</td><td>8.4</td><td>6</td><td>vowel signs on one letter (8), orphan mark (2)</td></tr>
+<tr><td>page_09</td><td>12</td><td>12.5</td><td>5</td><td>orphan mark (9), vowel signs on one letter (5)</td></tr>
+<tr><td>page_18</td><td>16</td><td>8.0</td><td>6</td><td>vowel signs on one letter (4), orphan mark (3)</td></tr>
+</tbody></table>
+<!-- /TABLE:pages -->
+  </div>
+</template>
+
+<template id="t-score" data-title="score.py" data-path="khojki/score.py">
+  <h3>What it does</h3>
+  <p>Draws the predicted text in Noto Sans Khojki at the crop's ink height, stretches it to the crop's ink box, dilates both, and returns one minus their IoU. Zero means a perfect overlap.</p>
+  <h3>Key decision</h3>
+  <p>Dilate both masks before comparing them. Stroke width differs between metal type and the font and would otherwise dominate the score.</p>
+  <h3>Rejected alternative</h3>
+  <p>Plain IoU of the undilated masks.</p>
+  <h3>Known limit</h3>
+  <p>Unproven. Spearman against line CER is <!-- VAL:spearman -->-0.718<!-- /VAL:spearman --> on <!-- VAL:n_lines -->5<!-- /VAL:n_lines --> lines. <!-- VAL:spearman_sentence -->The sign is negative: lines whose render matched worse had fewer errors, the opposite of what a confidence signal should show.<!-- /VAL:spearman_sentence --> Too few lines to tell whether it works as a confidence signal.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Render score range on test lines</dt><dd><!-- VAL:rs_min -->0.66<!-- /VAL:rs_min -->–<!-- VAL:rs_max -->0.80<!-- /VAL:rs_max --></dd>
+    <dt>Spearman vs line CER</dt><dd><!-- VAL:spearman -->-0.718<!-- /VAL:spearman --></dd>
+  </dl>
+</template>
+
+<template id="t-out" data-title="results/out/" data-path="pipeline.py → results/out/">
+  <h3>What it does</h3>
+  <p><code>pipeline.py</code> runs every stage on each page. For each page it writes a txt file with one line of text per box and a JSON file with the box, raw text, normalized text, repairs, errors, confidence, render score and time for each line. It also writes a downscaled overlay of the boxes, and a timing file for the whole run.</p>
+  <h3>Key decision</h3>
+  <p>Keep the raw and normalized text side by side with their repairs and errors, so any number in the README can be traced back to a line.</p>
+  <h3>Rejected alternative</h3>
+  <p>Full-resolution overlays. The committed overlays are downscaled so they cannot be reused as scans.</p>
+  <h3>Known limit</h3>
+  <p>The scale figures in the retro are estimates from one CPU run. Labelling new lines, not compute, is what makes scaling expensive.</p>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Seconds for <!-- VAL:flow_page -->page_18<!-- /VAL:flow_page --> (<!-- VAL:device -->cpu<!-- /VAL:device -->)</dt><dd><!-- VAL:sec_page -->8.0<!-- /VAL:sec_page --></dd>
+    <dt>Model load seconds</dt><dd><!-- VAL:model_load_s -->30.5<!-- /VAL:model_load_s --></dd>
+  </dl>
+</template>
+
+<template id="t-evaluate" data-title="evaluate.py" data-path="khojki/evaluate.py">
+  <h3>What it does</h3>
+  <p>Scores the model on the hand-verified test lines. Run A uses the pipeline's own boxes, matched to the hand crops by IoU. Run B uses the hand crops and normalizes; run C uses the hand crops and keeps the raw output. The differences between runs split the errors by stage.</p>
+  <h3>Key decision</h3>
+  <p>Three runs on the same lines, so each stage's errors are a subtraction. Line detection is A − B. Mapping is C − B, plus edits between code points that draw the same glyph. Recognition is the rest of B.</p>
+  <h3>Rejected alternative</h3>
+  <p>The crop boxes stated in the brief. They were a few pixels off, and two were narrower than the provided crops, so <code>tools/crop_oracle.py</code> re-measured them.</p>
+  <h3>Known limit</h3>
+  <ul>
+    <li><!-- VAL:n_lines -->5<!-- /VAL:n_lines --> lines from one page, <!-- VAL:n_cp -->119<!-- /VAL:n_cp --> code points: each edit counts for a lot.</li>
+    <li>Line detection caused no errors here: <!-- VAL:ld_sentence -->the automatic crops gave 4 fewer edits than the hand crops<!-- /VAL:ld_sentence -->.</li>
+    <li>Two glyphs in the ground truth are still uncertain.</li>
+    <li>The AI-drafted ground truth had errors that would have been scored as model errors if the lines had not been checked glyph by glyph.</li>
+    <li>Labelling is the main cost of scaling; the retro's estimate uses a self-reported time for the first check.</li>
+  </ul>
+  <h3>Numbers</h3>
+  <dl class="nums">
+    <dt>Run A</dt><dd><!-- VAL:cer_a -->18.5%<!-- /VAL:cer_a --></dd>
+    <dt>Run B</dt><dd><!-- VAL:cer_b -->21.8%<!-- /VAL:cer_b --></dd>
+    <dt>Run C</dt><dd><!-- VAL:cer_c -->21.8%<!-- /VAL:cer_c --></dd>
+    <dt>Line detection / mapping / recognition</dt><dd><!-- VAL:stage_line_detection -->-4<!-- /VAL:stage_line_detection --> / <!-- VAL:stage_mapping -->0<!-- /VAL:stage_mapping --> / <!-- VAL:stage_recognition -->26<!-- /VAL:stage_recognition --></dd>
+    <dt>Clean model, run B</dt><dd><!-- VAL:cer_clean_b -->99.2% (118/119)<!-- /VAL:cer_clean_b --></dd>
+  </dl>
+</template>
+
+<script>
+(function () {
+  var panel = document.getElementById("panel");
+  var body = document.getElementById("panel-body");
+  var title = document.getElementById("panel-title");
+  var path = document.getElementById("panel-path");
+  var opener = null;
+
+  function setExpanded(key) {
+    document.querySelectorAll(".node[data-panel]").forEach(function (n) {
+      n.setAttribute("aria-expanded", String(n.dataset.panel === key));
+    });
+  }
+
+  function open(key, from) {
+    var t = document.getElementById("t-" + key);
+    if (!t) return;
+    title.textContent = t.dataset.title;
+    path.textContent = t.dataset.path;
+    body.replaceChildren(t.content.cloneNode(true));
+    panel.classList.add("open");
+    panel.scrollTop = 0;
+    opener = from || null;
+    setExpanded(key);
+    panel.focus({ preventScroll: true });
+  }
+
+  function close() {
+    panel.classList.remove("open");
+    setExpanded(null);
+    if (opener) opener.focus();
+  }
+
+  document.querySelectorAll("[data-panel]").forEach(function (el) {
+    el.addEventListener("click", function () { open(el.dataset.panel, el); });
+  });
+  document.getElementById("panel-close").addEventListener("click", close);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && panel.classList.contains("open")) close();
+  });
+
+  // data flow
+  var flow = document.getElementById("run-flow");
+  var dot = flow.querySelector(".dot");
+  var toggle = document.getElementById("flow-toggle");
+  var caption = document.getElementById("flow-caption");
+  var idle = caption.innerHTML;
+  var steps = Array.prototype.slice.call(document.querySelectorAll("#flow-steps li"));
+  var nodes = Array.prototype.slice.call(flow.querySelectorAll("[data-step]"));
+  var timer = null, step = 0;
+
+  function place(i) {
+    var box = flow.getBoundingClientRect();
+    var r = nodes[i].getBoundingClientRect();
+    var x = r.left - box.left + r.width / 2;
+    var y = r.top - box.top + r.height / 2;
+    dot.style.transform = "translate(" + x + "px," + y + "px)";
+  }
+
+  function show(i) {
+    nodes.forEach(function (n, k) { n.classList.toggle("active", k === i); });
+    place(i);
+    caption.innerHTML = steps[i].innerHTML;
+  }
+
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+    flow.classList.remove("playing");
+    nodes.forEach(function (n) { n.classList.remove("active"); });
+    caption.innerHTML = idle;
+    toggle.setAttribute("aria-pressed", "false");
+  }
+
+  toggle.addEventListener("click", function () {
+    if (timer) { stop(); return; }
+    toggle.setAttribute("aria-pressed", "true");
+    step = 0;
+    var keep = dot.style.transition;
+    dot.style.transition = "none";
+    show(step);
+    dot.getBoundingClientRect();
+    dot.style.transition = keep;
+    flow.classList.add("playing");
+    timer = setInterval(function () {
+      step = (step + 1) % nodes.length;
+      show(step);
+    }, 2600);
+  });
+  window.addEventListener("resize", function () { if (timer) place(step); });
+
+  // chart tooltip
+  var tip = document.getElementById("tip");
+  function showTip(el, x, y) {
+    tip.textContent = el.dataset.tip;
+    tip.hidden = false;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = Math.min(Math.max(8, x - w / 2), window.innerWidth - w - 8);
+    var top = y - h - 12 < 8 ? y + 16 : y - h - 12;
+    tip.style.left = left + "px";
+    tip.style.top = top + "px";
+  }
+  document.querySelectorAll(".bars .hit").forEach(function (el) {
+    el.addEventListener("pointermove", function (e) { showTip(el, e.clientX, e.clientY); });
+    el.addEventListener("pointerleave", function () { tip.hidden = true; });
+    el.addEventListener("focus", function () {
+      var r = el.getBoundingClientRect();
+      showTip(el, r.left + r.width / 2, r.top);
+    });
+    el.addEventListener("blur", function () { tip.hidden = true; });
+  });
+})();
+</script>
+</body>
+</html>
